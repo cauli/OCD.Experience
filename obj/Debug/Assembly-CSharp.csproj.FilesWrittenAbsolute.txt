@@ -1,0 +1,17 @@
+/Users/caulitomaz/TOC/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/caulitomaz/TOC/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/caulitomaz/TOC/obj/Debug/Assembly-CSharp.dll
+/Users/caulitomaz/TOC/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/caulitomaz/TOC/Temp/bin/Debug/UnityEngine.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/UnityEditor.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/Mono.Cecil.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/Unity.DataContract.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/caulitomaz/TOC/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/caulitomaz/TOC/Temp/bin/Debug/Mono.Cecil.Mdb.dll
