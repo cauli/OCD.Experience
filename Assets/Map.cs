@@ -6,6 +6,9 @@ public class Map : MonoBehaviour {
 	public Transform line1;
 	public Transform line2;
 	public Transform line3;
+	public Transform line4;
+	public Transform line5;
+	public Transform line6;
 
 
 	/*
@@ -37,16 +40,14 @@ public class Map : MonoBehaviour {
 													    { 0, 0, 0 },
 													    { 0, 0, 0 } };
 
-	public int lengthOfStick = 10;  // Stick length
-
-	int l = 0;
+	public int l = 10;  // Stick length
 
 	public int level = 1;
+	public float playerScale = 2;
 
 	GameObject[] lines;
 
 	void Awake() {
-		l = lengthOfStick;
 		setLevel (level);	
 	}
 
@@ -89,7 +90,13 @@ public class Map : MonoBehaviour {
 			setLevelFive ();
 		} else if (level == 6) {
 			setLevelSix ();
-		} else {
+		} else if (level == 7) {
+			setLevelSeven ();
+		} else if (level == 8) {
+			setLevelEight ();
+		} else if (level == 9) {
+			setLevelNine ();
+		}else {
 			Debug.LogError ("Invalid Level!");
 		}
 	}
@@ -109,14 +116,25 @@ public class Map : MonoBehaviour {
 				if ((int)verticalArray [row,col] > 0) {
 					Transform line = null;
 
+					int v = (int)verticalArray [row, col];
 
-					if ((int)verticalArray [row, col] == 1) {
-						line = (Transform) Instantiate (line1, new Vector3 (row*l, col*l, 0), Quaternion.identity);
-					} else if ((int)verticalArray [row, col] == 2) {
-						line = (Transform) Instantiate (line2, new Vector3 (row*l, col*l, 0), Quaternion.identity);
-					} else if ((int)verticalArray [row, col] == 3) {
-						line = (Transform) Instantiate (line3, new Vector3 (row*l, col*l, 0), Quaternion.identity);
-					} 
+					if (v == 1) {
+						line = (Transform)Instantiate (line1, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 2) {
+						line = (Transform)Instantiate (line2, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 3) {
+						line = (Transform)Instantiate (line3, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 4) {
+						line = (Transform)Instantiate (line4, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 5) {
+						line = (Transform)Instantiate (line5, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 6) {
+						line = (Transform)Instantiate (line6, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else {
+						if (v != 0) {
+							Debug.LogError ("Erro occurred when instantiating line horizontal of VALUE " + v);
+						}
+					}
 
 					if (line != null) {
 						Debug.Log ("Line is not null");
@@ -141,13 +159,26 @@ public class Map : MonoBehaviour {
 
 					Transform line = null;
 
-					if ((int)horizontalArray [row, col] == 1) {
-						line = (Transform) Instantiate (line1, new Vector3 (row*l, col*l, 0), Quaternion.identity);
-					} else if ((int)horizontalArray [row, col] == 2) {
-						line = (Transform) Instantiate (line2, new Vector3 (row*l, col*l, 0), Quaternion.identity);
-					} else if ((int)horizontalArray [row, col] == 3) {
-						line = (Transform) Instantiate (line3, new Vector3 (row*l, col*l, 0), Quaternion.identity);
+					int v = (int)horizontalArray [row, col];
+
+					if (v == 1) {
+						line = (Transform)Instantiate (line1, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 2) {
+						line = (Transform)Instantiate (line2, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 3) {
+						line = (Transform)Instantiate (line3, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 4) {
+						line = (Transform)Instantiate (line4, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 5) {
+						line = (Transform)Instantiate (line5, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else if (v == 6) {
+						line = (Transform)Instantiate (line6, new Vector3 (row * l, col * l, 0), Quaternion.identity);
+					} else {
+						if (v != 0) {
+							Debug.LogError ("Erro occurred when instantiating line horizontal of VALUE " + v);
+						}
 					}
+
 
 					if (line != null) {
 						Debug.Log ("Line is not null");
@@ -179,6 +210,8 @@ public class Map : MonoBehaviour {
 		posArray         = new int[,]     { { 0, 0, 0 }, 
 										    { 1, 0, 0 },
 										    { 0, 0, 0 } };
+
+		l = 10;
 		
 	}
 
@@ -200,6 +233,7 @@ public class Map : MonoBehaviour {
 											{ 0, 0, 0, 0 },
 											{ 0, 0, 0, 0 } };
 
+		l = 10;
 	}
 
 	// DRAGON
@@ -223,6 +257,8 @@ public class Map : MonoBehaviour {
 										    { 0, 1, 0, 0, 0, 0 },
 										    { 0, 0, 0, 0, 0, 0 },
 										    { 0, 0, 0, 0, 0, 0 } };
+
+		l = 3;
 
 	}
 
@@ -251,6 +287,7 @@ public class Map : MonoBehaviour {
 											{ 0, 0, 0, 0, 0, 0 },
 											{ 0, 0, 0, 0, 0, 0 } };
 
+		l = 5;
 	}
 
 
@@ -339,5 +376,81 @@ public class Map : MonoBehaviour {
 
 	}
 
+
+
+
+	/**
+	 *    ‗   ‗
+	 *   ║‗║‗║‗║
+	 *   ║‗║‗║‗║
+	 *     ║‗║
+	 * 
+	 */
+	void setLevelEight() {
+		// RED
+		verticalArray = new int[,] {
+			{ 3, 3, 3, 3, 0, 0 }, 
+			{ 2, 2, 2, 2, 0, 0 },
+			{ 0, 3, 3, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};
+				
+
+		// BLUE
+		horizontalArray = new int[,] {
+			{ 3, 0, 3, 0, 0, 0 }, 
+			{ 3, 2, 3, 0, 0, 0 },
+			{ 2, 3, 2, 0, 0, 0 },
+			{ 0, 3, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};
+
+		posArray = new int[,] {
+			{ 0, 0, 0, 0, 0, 0 }, 
+			{ 1, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};
+
+	}
+
+	/**
+	 * 
+	 *   ‗‗‗‗‗‗
+	 *   ‗‗‗‗‗‗ 
+	 * 
+	 */
+	void setLevelNine() {
+		// RED
+		verticalArray = new int[,] {
+			{ 0, 0, 2, 0, 0, 0 }, 
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};
+
+
+		// BLUE
+		horizontalArray = new int[,] {
+			{ 2, 2, 2, 2, 0, 0 }, 
+			{ 2, 2, 2, 2, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};
+
+		posArray = new int[,] {
+			{ 1, 0, 0, 0, 0, 0 }, 
+			{ 0, 0, 0, 0,-1, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};
+
+		l = 10;
+	}
 
 }

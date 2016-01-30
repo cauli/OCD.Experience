@@ -68,11 +68,14 @@ public class Grid : MonoBehaviour {
  	// Use this for initialization
 	void Awake () {
 		map = this.GetComponent<Map> ();
-		l = map.lengthOfStick;	
+		l = map.l;	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		// Jogar para algo menos pesado.
+		l = map.l;
 
 		for (int row = 0; row < map.verticalArray.GetLength (0); row++) {
 			for (int col = 0; col < map.verticalArray.GetLength (1); col++) {
@@ -94,7 +97,8 @@ public class Grid : MonoBehaviour {
 
 	public bool canMove(int col, int row) {
 
-		Debug.LogWarning("CAN MOVE " + map.verticalArray [row, col] );
+
+		Debug.LogWarning("CAN MOVE ? I am at "  + col + " row " + row + " " + map.verticalArray [row, col] );
 		// Check can move Up
 		if ( (row-1) >= 0 )
 		{
@@ -120,7 +124,7 @@ public class Grid : MonoBehaviour {
 
 
 		// Check can move Left
-		if ( (col) > 0 )
+		if ( (col) >= 0 )
 		{
 			if (map.horizontalArray [row, col] > 0) {
 				return true;
@@ -151,6 +155,7 @@ public class Grid : MonoBehaviour {
 		for (int row = 0; row < map.verticalArray.GetLength (0); row++) {
 			for (int col = 0; col < map.verticalArray.GetLength (1); col++) {
 				if ((int)map.verticalArray [row,col] > 0) {
+					Debug.LogWarning("Did not win because " + row + " and col " + col + " = " + map.verticalArray [row, col]);
 					return false;
 				}
 			}
@@ -159,15 +164,19 @@ public class Grid : MonoBehaviour {
 		for (int row = 0; row < map.horizontalArray.GetLength (0); row++) {
 			for (int col = 0; col < map.horizontalArray.GetLength (1); col++) {
 				if ((int)map.horizontalArray [row,col] > 0) {
+					Debug.LogWarning("Did not win because " + row + " and col " + col + " = " + map.horizontalArray [row, col]);
 					return false;
 				}
 			}
 		}
 
+		Debug.LogWarning("WON!!!");
+		
 		return true;
 	}
 
 	public bool doMove(int col, int row, bool vertical) {
+
 		if (vertical) {
 			Debug.Log ("map.verticalArray[" + row + "][" + col + "] == " + (int)map.verticalArray [row, col]);
 

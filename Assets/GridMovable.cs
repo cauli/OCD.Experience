@@ -30,21 +30,45 @@ public class GridMovable : MonoBehaviour {
 			
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown ("up")) {
-			MoveUp ();
-		}
+		l = grid.l;
 
-		if (Input.GetKeyDown ("left")) {
-			MoveLeft ();
-		}
 
-		if (Input.GetKeyDown ("right")) {
-			MoveRight ();
-		}
+		// id < 0 reverses the user controls.
+		if(id < 0)
+		{
+			if (Input.GetKeyDown ("up")) {
+				MoveDown ();
+			}
 
-		if (Input.GetKeyDown ("down")) {
-			MoveDown ();
+			if (Input.GetKeyDown ("left")) {
+				MoveRight ();
+			}
+
+			if (Input.GetKeyDown ("right")) {
+				MoveLeft ();
+			}
+
+			if (Input.GetKeyDown ("down")) {
+				MoveUp ();
+			}
+		} else {	
+			if (Input.GetKeyDown ("up")) {
+				MoveUp ();
+			}
+
+			if (Input.GetKeyDown ("left")) {
+				MoveLeft ();
+			}
+
+			if (Input.GetKeyDown ("right")) {
+				MoveRight ();
+			}
+
+			if (Input.GetKeyDown ("down")) {
+				MoveDown ();
+			}
 		}
+	
 	}
 
 	void CompletedMove () {
