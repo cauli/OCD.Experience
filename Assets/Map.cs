@@ -51,7 +51,7 @@ public class Map : MonoBehaviour {
 	GameObject[] lines;
 
 	void Awake() {
-		setLevel (level);	
+		//setLevel (level);	
 	}
 
 	void Start() {
@@ -81,7 +81,7 @@ public class Map : MonoBehaviour {
 		}
 	}
 
-	void setLevel(int level) {
+	public void setLevel(int level) {
 		if (level == 1) {
 			setLevelOne ();
 		} else if (level == 2) {
@@ -106,7 +106,7 @@ public class Map : MonoBehaviour {
 			Debug.LogError ("Invalid Level!");
 		}
 			
-		gameManager.StartPuzzle(totalTime);
+		//gameManager.StartPuzzle(totalTime);
 	}
 
 	Vector3 XYtoVector3(int col, int row) {

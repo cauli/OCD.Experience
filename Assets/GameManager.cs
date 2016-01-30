@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour {
 
 	public Image heartFill;
 	public GameObject heart;
+	public Grid grid;
+
+	public CanvasGroup canvasGroup;
+	public BGImagesBehavior bgBehavior;
 
 	// Use this for initialization
 	void Start () {
@@ -21,7 +25,53 @@ public class GameManager : MonoBehaviour {
 	float startTotalTime = -1;
 
 
+	public void StartGame(int puzzle, float totalTime) {
+		GameObject[] allPregame = GameObject.FindGameObjectsWithTag("Pregame");
+		foreach(GameObject obj in allPregame) {
+			iTween.FadeTo(obj, iTween.Hash("alpha",0, "time",2.0f,"delay",0.1f));
+
+		}
+
+		LoadAndStartPuzzle(puzzle, totalTime);
+	}
+
+	public void LoadAndStartPuzzle(int puzzle, float totalTime) {
+
+		startTotalTime = totalTime;
+		totalCurrentTime = totalTime;
+
+		StartCoroutine(Timer());
+
+		System.Collections.Hashtable hash =
+			new System.Collections.Hashtable();
+
+		hash.Add("x", 0.81f);
+		hash.Add("y", 0.78f);
+		hash.Add("time", 1f);
+		hash.Add("looptype", iTween.LoopType.loop);
+		iTween.ScaleTo(heart, hash);
+
+	}
+
+
+
+	IEnumerator FadeOut()
+	{
+		float time = 1f;
+		while(canvasGroup.alpha > 0)
+		{
+			canvasGroup.alpha -= Time.deltaTime / time;
+			yield return null;
+		}
+	}
+
+
 	public void StartPuzzle(float totalTime) {
+		StartCoroutine("FadeOut");
+		
+
+		bgBehavior.MoveImage();
+
 		startTotalTime = totalTime;
 		totalCurrentTime = totalTime;
 
@@ -36,6 +86,7 @@ public class GameManager : MonoBehaviour {
 		hash.Add("looptype", iTween.LoopType.loop);
 		iTween.ScaleTo(heart, hash);
 
+		grid.map.setLevel(2);
 	}
 
 	IEnumerator Timer() {
