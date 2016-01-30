@@ -10,6 +10,7 @@ public class Map : MonoBehaviour {
 	public Transform line5;
 	public Transform line6;
 
+	public GameManager gameManager;
 
 	/*
 	 *  Cada elemento do array corresponde a um ponto, assumindo TOP LEFT 
@@ -45,6 +46,8 @@ public class Map : MonoBehaviour {
 	public int level = 1;
 	public float playerScale = 2;
 
+	public float totalTime = 20.0f;
+
 	GameObject[] lines;
 
 	void Awake() {
@@ -56,6 +59,7 @@ public class Map : MonoBehaviour {
 
 		if (lines == null)
 			lines = GameObject.FindGameObjectsWithTag("LineDraw");
+		
 	}
 
 
@@ -96,9 +100,13 @@ public class Map : MonoBehaviour {
 			setLevelEight ();
 		} else if (level == 9) {
 			setLevelNine ();
+		} else if (level == 10) {
+			setLevelTen ();
 		}else {
 			Debug.LogError ("Invalid Level!");
 		}
+			
+		gameManager.StartPuzzle(totalTime);
 	}
 
 	Vector3 XYtoVector3(int col, int row) {
@@ -181,15 +189,12 @@ public class Map : MonoBehaviour {
 
 
 					if (line != null) {
-						Debug.Log ("Line is not null");
 						LineRenderer renderer = (LineRenderer)line.gameObject.GetComponent<LineRenderer> ();
 
 						LineInfo info = (LineInfo)line.gameObject.GetComponent<LineInfo> ();
 
 						info.startVector3 = new Vector3 (row * l, col * l, 0);
 						info.endVector3 = new Vector3 (row*l, col*l + (1*l),0);
-
-						Debug.Log ("Setting " + (row * l) + " - " + ((col*l) + (1*l)));
 					}
 				}
 			}
@@ -197,6 +202,17 @@ public class Map : MonoBehaviour {
 
 		lines = GameObject.FindGameObjectsWithTag("LineDraw");
 	}
+
+
+
+
+	/**
+	 *  LEVELS START HERE 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 
 	void setLevelOne() {
 		verticalArray  = new int[,]       { { 2, 2, 0 }, 
@@ -451,6 +467,29 @@ public class Map : MonoBehaviour {
 		};
 
 		l = 10;
+	}
+
+
+	void setLevelTen() {
+		// RED
+		verticalArray  = new int[,]       
+		  { { 1, 1, 1, 0 }, 
+			{ 1, 1, 1, 1 },
+			{ 0, 1, 1, 1 },
+			{ 0, 0, 0, 0 } };
+
+		// BLUE
+		horizontalArray  = new int[,]     
+		  { { 0, 1, 0, 0 }, 
+			{ 1, 1, 1, 0 },
+			{ 1, 1, 1, 0 },
+			{ 0, 1, 0, 0 } };
+
+		posArray         = new int[,]   
+		 {  { 1, 0, 0, 0 }, 
+			{ 0, 0, 0, 0 },
+			{ 0, 0, 0, 0 },
+			{ 0, 0, 0,-1 } };
 	}
 
 }

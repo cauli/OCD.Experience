@@ -170,8 +170,6 @@ public class Grid : MonoBehaviour {
 			}
 		}
 
-		Debug.LogWarning("WON!!!");
-		
 		return true;
 	}
 
