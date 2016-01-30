@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Map : MonoBehaviour {
@@ -81,8 +81,10 @@ public class Map : MonoBehaviour {
 		}
 	}
 
-	public void setLevel(int level) {
-		if (level == 1) {
+	void setLevel(int level) {
+		if (level == 0) {
+			setLevelZero ();
+		} else if (level == 1) {
 			setLevelOne ();
 		} else if (level == 2) {
 			setLevelTwo ();
@@ -213,6 +215,26 @@ public class Map : MonoBehaviour {
 	 * 
 	 * 
 	 */
+
+	void setLevelZero() {
+		verticalArray  = new int[,]       
+		  { { 0, 2, 1 }, 
+			{ 0, 0, 0 },
+			{ 0, 0, 0 } };
+
+		horizontalArray  = new int[,]    
+		  { { 0, 1, 0 }, 
+			{ 1, 1, 0 },
+			{ 0, 0, 0 } };
+
+		posArray         = new int[,]    
+		  { { 0, 0, 0 }, 
+			{ 1, 0, 0 },
+			{ 0, 0, 0 } };
+
+		l = 10;
+
+	}
 
 	void setLevelOne() {
 		verticalArray  = new int[,]       { { 2, 2, 0 }, 
