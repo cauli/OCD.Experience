@@ -6,6 +6,9 @@ public class Grid : MonoBehaviour {
 	public Map map;
 	public int l;
 
+
+
+
 	/*
 	 *  Cada elemento do array corresponde a um ponto, assumindo TOP LEFT 
 	 *  Ex: O primeiro índice [0][0] (P) no array dimensional pega os valores
@@ -93,49 +96,38 @@ public class Grid : MonoBehaviour {
 
 		Debug.LogWarning("CAN MOVE " + map.verticalArray [row, col] );
 		// Check can move Up
-		if ( (col-1) > 0 )
-		{
-			if (map.verticalArray [row, col - 1] > 0) {
-				return true;
-			}
-		}
-		// Check can move Down
-		if ( (col) > 0 )
-		{
-			if (map.verticalArray [row, col] > 0) {
-				return true;
-			}
-		}
-		if ( (row-1) > 0 )
+		if ( (row-1) >= 0 )
 		{
 			if (map.verticalArray [row-1, col] > 0) {
 				return true;
 			}
 		}
-			
-		if ( (row) > 0 )
+		// Check can move Down
+		if ( (row) >= 0 )
 		{
 			if (map.verticalArray [row, col] > 0) {
 				return true;
 			}
 		}
-
+	
 		// Check can move Left
-		if ( (row-1) > 0 )
+		if ( (col-1) >= 0 )
 		{
-			if (map.horizontalArray [row-1, col] > 0) {
+			if (map.horizontalArray [row, col-1] > 0) {
 				return true;
 			}
 		}
 
 
 		// Check can move Left
-		if ( (row) > 0 )
+		if ( (col) > 0 )
 		{
 			if (map.horizontalArray [row, col] > 0) {
 				return true;
 			}
 		}
+
+	
 
 		return false;
 	}

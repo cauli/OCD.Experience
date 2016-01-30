@@ -47,6 +47,9 @@ public class GridMovable : MonoBehaviour {
 		}
 	}
 
+	void CompletedMove () {
+		//grid.map.drawLinesForPuzzle ();
+	}
 
 	bool MoveIfPossible(int destinyX,  int destinyY, int cX, int cY, Way way, Direction direction) {
 
@@ -80,7 +83,13 @@ public class GridMovable : MonoBehaviour {
 				grid.PrintVertical ();
 				grid.PrintHorizontal ();
 
-				this.transform.position = XYtoVector3 (destinyX, destinyY);
+				// this.transform.position = XYtoVector3 (destinyX, destinyY);
+
+				Vector3 destinyVector3 = XYtoVector3 (destinyX, destinyY);
+
+				iTween.MoveTo(gameObject,iTween.Hash("x",destinyVector3.x,"y",destinyVector3.y,"time",0.5,"oncomplete","CompletedMove","looptype",iTween.LoopType.none));				
+
+				grid.map.drawLinesForPuzzle ();
 
 				currentX = destinyX;
 				currentY = destinyY;
@@ -180,11 +189,11 @@ public class GridMovable : MonoBehaviour {
 
 					gameObject.SetActive (true);
 
-					Debug.Log ("VALXY " + (int)grid.map.posArray [row, col] + "CX : " + row + " CY :" + col);
+					//Debug.Log ("VALXY " + (int)grid.map.posArray [row, col] + "CX : " + row + " CY :" + col);
 
 					return XYtoVector3 (col, row);
 				} else {
-					Debug.Log ("NOT " + id + " - on  " + row + " " + col  + " got "  + (int)grid.map.posArray[row, col]);
+					// Debug.Log ("NOT " + id + " - on  " + row + " " + col  + " got "  + (int)grid.map.posArray[row, col]);
 				}
 			}
 
