@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Grid : MonoBehaviour {
 
+	public Map map;
+	public int l;
+
 	/*
 	 *  Cada elemento do array corresponde a um ponto, assumindo TOP LEFT 
 	 *  Ex: O primeiro índice [0][0] (P) no array dimensional pega os valores
@@ -17,26 +20,6 @@ public class Grid : MonoBehaviour {
 	 *    |
 	 */
 
-	public int[,] verticalArray  = new int[,]         { { 2, 2, 0 }, 
-												        { 2, 2, 0 },
-												        { 0, 0, 0 } };
-
-	public int[,] horizontalArray  = new int[,]       { { 0, 0, 0 }, 
-												        { 5, 0, 0 },
-												        { 0, 0, 0 } };
-	  
-
-	// 0 = Null
-	// 1 = Player start
-	// 2 = Player end
-	public int[,] posArray         = new int[,]       { { 0, 0, 0 }, 
-													    { 1, 2, 0 },
-													    { 0, 0, 0 } };
-
-	public int lengthOfStick = 10;  // Stick length
-	int l = 0;
-
-
 	/**
 	 *   DEBUGGING 
 	 */
@@ -45,10 +28,10 @@ public class Grid : MonoBehaviour {
 
 		string line = "";
 
-		for (int x = 0; x < verticalArray.GetLength(0); x += 1) {
+		for (int x = 0; x < map.verticalArray.GetLength(0); x += 1) {
 
-			for (int y = 0; y < verticalArray.GetLength(1); y += 1) {
-				line += verticalArray[x, y];
+			for (int y = 0; y < map.verticalArray.GetLength(1); y += 1) {
+				line += map.verticalArray[x, y];
 			}
 
 			line += "\n";
@@ -62,11 +45,11 @@ public class Grid : MonoBehaviour {
 
 		string line = "";
 
-		for (int x = 0; x < horizontalArray.GetLength(0); x += 1) {
+		for (int x = 0; x < map.horizontalArray.GetLength(0); x += 1) {
 
 
-			for (int y = 0; y < horizontalArray.GetLength(1); y += 1) {
-				line += horizontalArray[x, y];
+			for (int y = 0; y < map.horizontalArray.GetLength(1); y += 1) {
+				line += map.horizontalArray[x, y];
 			}
 
 			line += "\n";
@@ -80,24 +63,25 @@ public class Grid : MonoBehaviour {
 
 
  	// Use this for initialization
-	void Start () {
-		l = lengthOfStick;	
+	void Awake () {
+		map = this.GetComponent<Map> ();
+		l = map.lengthOfStick;	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		for (int row = 0; row < verticalArray.GetLength (0); row++) {
-			for (int col = 0; col < verticalArray.GetLength (1); col++) {
-				if ((int)verticalArray [row,col] > 0) {
+		for (int row = 0; row < map.verticalArray.GetLength (0); row++) {
+			for (int col = 0; col < map.verticalArray.GetLength (1); col++) {
+				if ((int)map.verticalArray [row,col] > 0) {
 					Debug.DrawLine (new Vector3 (row*l, col*l, 0), new Vector3 (row*l+ (1*l), col*l , 0), Color.red);
 				}
 			}
 		}
 
-		for (int row = 0; row < horizontalArray.GetLength (0); row++) {
-			for (int col = 0; col < horizontalArray.GetLength (1); col++) {
-				if ((int)horizontalArray [row,col] > 0) {
+		for (int row = 0; row < map.horizontalArray.GetLength (0); row++) {
+			for (int col = 0; col < map.horizontalArray.GetLength (1); col++) {
+				if ((int)map.horizontalArray [row,col] > 0) {
 					Debug.DrawLine (new Vector3 (row*l, col*l, 0), new Vector3 (row*l, col*l + (1*l), 0), Color.blue);
 				}
 			}
@@ -105,12 +89,63 @@ public class Grid : MonoBehaviour {
 
 	}
 
+	public bool canMove(int col, int row) {
+
+		Debug.LogWarning("CAN MOVE " + map.verticalArray [row, col] );
+		// Check can move Up
+		if ( (col-1) > 0 )
+		{
+			if (map.verticalArray [row, col - 1] > 0) {
+				return true;
+			}
+		}
+		// Check can move Down
+		if ( (col) > 0 )
+		{
+			if (map.verticalArray [row, col] > 0) {
+				return true;
+			}
+		}
+		if ( (row-1) > 0 )
+		{
+			if (map.verticalArray [row-1, col] > 0) {
+				return true;
+			}
+		}
+			
+		if ( (row) > 0 )
+		{
+			if (map.verticalArray [row, col] > 0) {
+				return true;
+			}
+		}
+
+		// Check can move Left
+		if ( (row-1) > 0 )
+		{
+			if (map.horizontalArray [row-1, col] > 0) {
+				return true;
+			}
+		}
+
+
+		// Check can move Left
+		if ( (row) > 0 )
+		{
+			if (map.horizontalArray [row, col] > 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public bool isInsideBounds(int col, int row) {
 		if (col < 0 || row < 0) {
 			return false;
 		}
 
-		if (row < verticalArray.GetLength(0) && col < verticalArray.GetLength(1))
+		if (row < map.verticalArray.GetLength(0) && col < map.verticalArray.GetLength(1))
 		{
 			return true;
 		}
@@ -120,22 +155,48 @@ public class Grid : MonoBehaviour {
 		}
 	}
 
+	public bool CheckWon() {
+		for (int row = 0; row < map.verticalArray.GetLength (0); row++) {
+			for (int col = 0; col < map.verticalArray.GetLength (1); col++) {
+				if ((int)map.verticalArray [row,col] > 0) {
+					return false;
+				}
+			}
+		}
+
+		for (int row = 0; row < map.horizontalArray.GetLength (0); row++) {
+			for (int col = 0; col < map.horizontalArray.GetLength (1); col++) {
+				if ((int)map.horizontalArray [row,col] > 0) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
 	public bool doMove(int col, int row, bool vertical) {
 		if (vertical) {
+			Debug.Log ("map.verticalArray[" + row + "][" + col + "] == " + (int)map.verticalArray [row, col]);
+
 			// Se este elemento for 0, não existem jogadas disponíveis para o usuário
-			if ((int)verticalArray [row, col] <= 0) {
+			if ((int)map.verticalArray [row, col] <= 0) {
+				
 				return false;
 			} else {
-				verticalArray [row, col] = ((int)verticalArray [row, col]) - 1;
+				map.verticalArray [row, col] = ((int)map.verticalArray [row, col]) - 1;
 				return true;
 			}
 
 		} else {
+
+			Debug.Log ("map.horizontalArray[" + row + "][" + col + "] == " + (int)map.horizontalArray [row, col]);
+
 			// Se este elemento for 0, não existem jogadas disponíveis para o usuário
-			if ((int)horizontalArray [row, col] <= 0) {
+			if ((int)map.horizontalArray [row, col] <= 0) {
 				return false;
 			} else {
-				horizontalArray [row, col] = ((int)horizontalArray [row, col]) - 1;
+				map.horizontalArray [row, col] = ((int)map.horizontalArray [row, col]) - 1;
 				return true;
 			}
 		}

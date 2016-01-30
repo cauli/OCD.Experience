@@ -3,12 +3,18 @@ using System.Collections;
 
 public class GridMovable : MonoBehaviour {
 
-	public Grid map;
+	public GameManager manager;
 
-	public int l = -1;
+	public Grid grid;
+
+	private int l = -1;
+
+	public int id = -1;
 
 	int currentX;
 	int currentY;
+
+	bool active = false;
 
 	enum Way{ Vertical, Horizontal };
 	enum Direction{ Up, Down, Left, Right };
@@ -17,63 +23,81 @@ public class GridMovable : MonoBehaviour {
 	void Start () {
 
 		// Setando o length para o mesmo do Grid PAI
-		l = map.lengthOfStick;
+		l = grid.l;
 
-		this.transform.position = GetStartPosition (map);
+		gameObject.transform.position = GetStartPosition (grid);
 	}
 			
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown ("up"))
+		if (Input.GetKeyDown ("up")) {
 			MoveUp ();
+		}
 
-		if (Input.GetKeyDown ("left"))
+		if (Input.GetKeyDown ("left")) {
 			MoveLeft ();
+		}
 
-		if (Input.GetKeyDown ("right"))
+		if (Input.GetKeyDown ("right")) {
 			MoveRight ();
+		}
 
-		if (Input.GetKeyDown ("down"))
+		if (Input.GetKeyDown ("down")) {
 			MoveDown ();
+		}
 	}
 
 
-	bool MoveIfPossible(int destinyX,  int destinyY, int currentX, int currentY, Way way, Direction direction) {
+	bool MoveIfPossible(int destinyX,  int destinyY, int cX, int cY, Way way, Direction direction) {
 
 		int posX = -100;
 		int posY = -100;
 
+		Debug.Log ("--------- " + direction);
 		/*
 		 *  VER PAPEL 2 PARA EXPLICACAO
 		 * 
 		 * 
 		 */
-		if (direction == Direction.Up || direction == Direction.Left) {
+		if (direction == Direction.Up || direction == Direction.Left) {	
+			Debug.Log ("UP or LEFT!");	
 			posX = destinyX;
 			posY = destinyY;
 		} else {
-			posX = currentX;
-			posY = currentY;
+			Debug.Log ("RIGHT or DOWN!");	
+			posX = cX;
+			posY = cY;
 		}
 
 		// To move
-		if (map.isInsideBounds (destinyX, destinyY)) {
+		if (grid.isInsideBounds (destinyX, destinyY)) {	
+			Debug.Log ("But current sending  X: " + cX + " --- " + " Y: " + cY + "");	
 			Debug.Log ("Destiny Inside bounds X: " + destinyX + " --- " + " Y: " + destinyY + "");
+			Debug.Log ("But position sending  X: " + posX + " --- " + " Y: " + posY + "");
 
-			//if(map.doMove(posX, posY, (way == Way.Vertical) )) {
+			if(grid.doMove(posX, posY, (way == Way.Vertical) )) {
 
-				map.PrintVertical ();
-				map.PrintHorizontal ();
+				grid.PrintVertical ();
+				grid.PrintHorizontal ();
 
 				this.transform.position = XYtoVector3 (destinyX, destinyY);
 
 				currentX = destinyX;
 				currentY = destinyY;
-			/*}
+
+				if (grid.CheckWon ()) {
+					manager.WonPuzzle ();
+				} else {
+					// Nessa posição nova, se o usuário não puder se mexer, perdeu o jogo.
+					if (!grid.canMove (currentX, currentY)) {
+						manager.LostPuzzle ();
+					}
+				}
+			}
 			else {
 				Debug.Log ("But cannot move X: " + destinyX + " --- " + " Y: " + destinyY + "");	
 			  return false;
-			}*/
+			}
 
 			return true;
 		}
@@ -130,7 +154,7 @@ public class GridMovable : MonoBehaviour {
 		int destinyY = currentY;
 		int destinyX = currentX+1;
 
-		if (MoveIfPossible (destinyX, destinyY, currentX, currentY, Way.Horizontal, Direction.Up)) {
+		if (MoveIfPossible (destinyX, destinyY, currentX, currentY, Way.Horizontal, Direction.Right)) {
 			Debug.Log ("Moving to DestinyX : " + destinyX + " --- " + " DestinyY : " + destinyY + " DONE!!!!!!!!");
 		} else {
 			Debug.Log ("Moving to DestinyX : " + destinyX + " --- " + " DestinyY : " + destinyY + " NOT POSSIBLE");
@@ -142,19 +166,32 @@ public class GridMovable : MonoBehaviour {
 	/**
 	 *  Returns the specified position of the player by the grid. 
 	 */
-	Vector3 GetStartPosition(Grid map) {
-		for (int row = 0; row < map.posArray.GetLength (0); row++) {
-			for (int col = 0; col < map.posArray.GetLength (1); col++) {
-				if ((int)map.posArray [row,col] == 1) {
+	Vector3 GetStartPosition(Grid grid) {
+
+		Debug.Log ("ID " + id);
+
+		for (int row = 0; row < grid.map.posArray.GetLength (0); row++) {
+			for (int col = 0; col < grid.map.posArray.GetLength (1); col++) {
+				if ((int)grid.map.posArray[row, col] == id) {
 					currentY = row;
 					currentX = col;
 
-					return XYtoVector3 (currentX, currentY);
+					active = true;
+
+					gameObject.SetActive (true);
+
+					Debug.Log ("VALXY " + (int)grid.map.posArray [row, col] + "CX : " + row + " CY :" + col);
+
+					return XYtoVector3 (col, row);
+				} else {
+					Debug.Log ("NOT " + id + " - on  " + row + " " + col  + " got "  + (int)grid.map.posArray[row, col]);
 				}
 			}
 
 		}
 
+		active = false;
+		gameObject.SetActive(false);
 		return Vector3.zero;
 	}
 
