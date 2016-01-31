@@ -51,7 +51,7 @@ public class Map : MonoBehaviour {
 	GameObject[] lines;
 
 	void Awake() {
-		//setLevel (level);	
+		setLevel (level);	
 	}
 
 	void Start() {
@@ -67,7 +67,8 @@ public class Map : MonoBehaviour {
 	void Update() {
 		foreach (GameObject line in lines) {
 			//Debug.Log ("Drawing line");
-			if (line.gameObject != null) {
+			if(line != null)
+			{		
 				LineRenderer renderer = (LineRenderer)line.gameObject.GetComponent<LineRenderer> ();
 				LineInfo info = (LineInfo)line.gameObject.GetComponent<LineInfo> ();
 
@@ -78,10 +79,11 @@ public class Map : MonoBehaviour {
 				renderer.SetPosition(0, info.startVector3);
 				renderer.SetPosition(1, info.endVector3);
 			}
+	
 		}
 	}
 
-	void setLevel(int level) {
+	public void setLevel(int level) {
 		if (level == 0) {
 			setLevelZero ();
 		} else if (level == 1) {
@@ -147,18 +149,13 @@ public class Map : MonoBehaviour {
 					}
 
 					if (line != null) {
-						Debug.Log ("Line is not null");
 						LineRenderer renderer = (LineRenderer)line.gameObject.GetComponent<LineRenderer> ();
 
 						LineInfo info = (LineInfo)line.gameObject.GetComponent<LineInfo> ();
 
 						info.startVector3 = new Vector3 (row * l, col * l, 0);
 						info.endVector3 = new Vector3 (row*l+ (1*l), col*l,0);
-
-						//renderer.SetPosition(0, new Vector3 (row*l, col*l, 0));
-						//renderer.SetPosition(1, new Vector3 (row*l, col*l + (1*l)));
 					}
-
 				}
 			}
 		}

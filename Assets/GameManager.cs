@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour {
 	public GameObject gotItBtn;
 	public Text attemptTxt;
 
+	float totalCurrentTime = -1;
+	float startTotalTime = -1;
+
 	//private int numberAttempts = 0;
 
 	// Use this for initialization
@@ -25,41 +28,7 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 	
 	}
-
-	float totalCurrentTime = -1;
-	float startTotalTime = -1;
-
-
-	public void StartGame(int puzzle, float totalTime) {
-		GameObject[] allPregame = GameObject.FindGameObjectsWithTag("Pregame");
-		foreach(GameObject obj in allPregame) {
-			iTween.FadeTo(obj, iTween.Hash("alpha",0, "time",2.0f,"delay",0.1f));
-
-		}
-
-		LoadAndStartPuzzle(puzzle, totalTime);
-	}
-
-	public void LoadAndStartPuzzle(int puzzle, float totalTime) {
-
-		startTotalTime = totalTime;
-		totalCurrentTime = totalTime;
-
-		StartCoroutine(Timer());
-
-		System.Collections.Hashtable hash =
-			new System.Collections.Hashtable();
-
-		hash.Add("x", 0.81f);
-		hash.Add("y", 0.78f);
-		hash.Add("time", 1f);
-		hash.Add("looptype", iTween.LoopType.loop);
-		iTween.ScaleTo(heart, hash);
-
-	}
-
-
-
+		
 	IEnumerator FadeOut()
 	{
 		float time = 1f;
@@ -69,8 +38,7 @@ public class GameManager : MonoBehaviour {
 			yield return null;
 		}
 	}
-
-
+		
 	public void StartPuzzle(float totalTime) {
 		StartCoroutine("FadeOut");
 		
@@ -127,8 +95,10 @@ public class GameManager : MonoBehaviour {
 
 
 	public void WonPuzzle () {
-		
-		gotItBtn.SetActive (true);
+
+		if(gotItBtn != null) {
+			gotItBtn.SetActive (true);
+		}
 
 		Debug.Log ("!!!!! WON");	
 	}

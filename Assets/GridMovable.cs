@@ -213,7 +213,7 @@ public class GridMovable : MonoBehaviour {
 
 					gameObject.SetActive (true);
 
-					//Debug.Log ("VALXY " + (int)grid.map.posArray [row, col] + "CX : " + row + " CY :" + col);
+					Debug.Log ("FOUND ID " + id + " POSITION ON LEVEL" + (int)grid.map.posArray [row, col] + "CX : " + row + " CY :" + col);
 
 					return XYtoVector3 (col, row);
 				} else {
