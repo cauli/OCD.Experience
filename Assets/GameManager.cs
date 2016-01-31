@@ -24,9 +24,9 @@ public class GameManager : MonoBehaviour {
 	float totalCurrentTime = -1;
 	float startTotalTime = -1;
 
-	int[] puzzlesChallenge1 = new int[6] {12,6,11,5,8,10};
+	int[] puzzlesChallenge1 = new int[6] {2,11,5,12,8,10};
 	public Transform[] ballonsChallenge1;
-	int[] puzzlesChallenge2 = new int[3] {8,9,10};
+	int[] puzzlesChallenge2 = new int[5] {13,14,8,9,10};
 	public Transform[] ballonsChallenge2;
 
 	public static int currentChallenge = 0;
