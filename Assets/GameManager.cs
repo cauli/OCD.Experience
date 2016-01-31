@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 	float startTotalTime = -1;
 
 	private int numberAttempts = 0;
+	private bool timerRunning = true;
 
 	// Use this for initialization
 	void Start () {
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour {
 		startTotalTime = totalTime;
 		totalCurrentTime = totalTime;
 
+		timerRunning = true;
 		StartCoroutine(Timer());
 
 		System.Collections.Hashtable hash =
@@ -81,7 +83,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	IEnumerator Timer() {
-		while (true) {
+		while (timerRunning) {
 			yield return new WaitForSeconds(0.1f);
 			totalCurrentTime -= 0.1f;
 
@@ -97,7 +99,7 @@ public class GameManager : MonoBehaviour {
 			}
 
 
-
+			print (totalCurrentTime);
 
 			float heartRate = startTotalTime - totalCurrentTime;
 
@@ -129,10 +131,13 @@ public class GameManager : MonoBehaviour {
 
 		StartCoroutine("FadeIn");
 
+		timerRunning = false;
+
 		Debug.LogError ("!!!!! LOST, CANT MOVE");
 	}
 
 	public void TimesUp () {
+		timerRunning = false;
 		Debug.LogError ("!!!!! LOST TIMES UP");
 	}
 }
