@@ -25,6 +25,11 @@ public class GridMovable : MonoBehaviour {
 		// Setando o length para o mesmo do Grid PAI
 		l = grid.l;
 
+		SetInitialPosition();
+	}
+
+	public void SetInitialPosition() {
+		l = grid.map.l;
 		gameObject.transform.position = GetStartPosition (grid);
 	}
 			
@@ -86,21 +91,21 @@ public class GridMovable : MonoBehaviour {
 		 * 
 		 * 
 		 */
-		if (direction == Direction.Up || direction == Direction.Left) {	
-			Debug.Log ("UP or LEFT!");	
+		if (direction == Direction.Up || direction == Direction.Left) {		
 			posX = destinyX;
 			posY = destinyY;
 		} else {
-			Debug.Log ("RIGHT or DOWN!");	
 			posX = cX;
 			posY = cY;
 		}
 
 		// To move
 		if (grid.isInsideBounds (destinyX, destinyY)) {	
-			Debug.Log ("But current sending  X: " + cX + " --- " + " Y: " + cY + "");	
+			/*
+			 Debug.Log ("But current sending  X: " + cX + " --- " + " Y: " + cY + "");	
 			Debug.Log ("Destiny Inside bounds X: " + destinyX + " --- " + " Y: " + destinyY + "");
 			Debug.Log ("But position sending  X: " + posX + " --- " + " Y: " + posY + "");
+			*/
 
 			if(grid.doMove(posX, posY, (way == Way.Vertical) )) {
 

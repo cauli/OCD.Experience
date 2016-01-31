@@ -41,12 +41,14 @@ public class Map : MonoBehaviour {
 													    { 0, 0, 0 },
 													    { 0, 0, 0 } };
 
-	public int l = 10;  // Stick length
+	public int l = 6;  // Stick length
 
 	public int level = 1;
 	public float playerScale = 2;
 
 	public float totalTime = 20.0f;
+
+	public Vector2 cameraOffset = new Vector2(10f, 10f);
 
 	GameObject[] lines;
 
@@ -109,7 +111,9 @@ public class Map : MonoBehaviour {
 		}else {
 			Debug.LogError ("Invalid Level!");
 		}
-			
+
+		drawLinesForPuzzle();
+
 		//gameManager.StartPuzzle(totalTime);
 	}
 
@@ -213,6 +217,13 @@ public class Map : MonoBehaviour {
 	 * 
 	 */
 
+	/**
+	*	  _
+	*   _║_|
+	*
+	*	Tutorial introdutório
+	*
+	*/
 	void setLevelZero() {
 		verticalArray  = new int[,]       
 		  { { 0, 2, 1 }, 
@@ -250,25 +261,35 @@ public class Map : MonoBehaviour {
 		
 	}
 
+	/**
+	 *        _
+	 * 		_|_|_
+	 *     |_| |_|
+	 * 		 
+	 * 
+	 * 
+	 */
 	void setLevelTwo() {
 		// RED
 		verticalArray  = new int[,]       { { 0, 1, 1, 0 }, 
 									     	{ 1, 1, 1, 1 },
-											{ 0, 1, 1, 0 },
+											{ 0, 0, 0, 0 },
 											{ 0, 0, 0, 0 } };
 
 		// BLUE
 		horizontalArray  = new int[,]     { { 0, 1, 0, 0 }, 
 											{ 1, 1, 1, 0 },
-											{ 1, 1, 1, 0 },
-											{ 0, 1, 0, 0 } };
+											{ 1, 0, 1, 0 },
+											{ 0, 0, 0, 0 } };
 
 		posArray         = new int[,]    {  { 0, 0, 0, 0 }, 
 											{ 1, 0, 0, 0 },
 											{ 0, 0, 0, 0 },
 											{ 0, 0, 0, 0 } };
 
-		l = 10;
+		l = 6;
+
+		GameManager.CameraPosition(new Vector3(80.4f, 79.9f, -84.9f));
 	}
 
 	// DRAGON
@@ -488,7 +509,14 @@ public class Map : MonoBehaviour {
 		l = 10;
 	}
 
-
+	/**
+	 * 	 1	_
+	 *   |_|_|_
+	 *   |_|_|_|
+	 * 	   |_| |
+	 *         -1
+	 * 
+	 */
 	void setLevelTen() {
 		// RED
 		verticalArray  = new int[,]       

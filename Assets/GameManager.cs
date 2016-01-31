@@ -17,11 +17,16 @@ public class GameManager : MonoBehaviour {
 	float totalCurrentTime = -1;
 	float startTotalTime = -1;
 
+	int[] puzzlesChallenge1 = new int[3] {2,5,6};
+
+	int currentChallenge = 1;
+	private int currentPuzzleIndex = 0;
+
 	//private int numberAttempts = 0;
 
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
 	
 	// Update is called once per frame
@@ -38,7 +43,11 @@ public class GameManager : MonoBehaviour {
 			yield return null;
 		}
 	}
-		
+
+	public static void CameraPosition(Vector3 position) {
+		Camera.main.transform.position = position;
+	}
+
 	public void StartPuzzle(float totalTime) {
 		StartCoroutine("FadeOut");
 		
@@ -52,14 +61,25 @@ public class GameManager : MonoBehaviour {
 
 		System.Collections.Hashtable hash =
 			new System.Collections.Hashtable();
-		
 		hash.Add("x", 0.81f);
 		hash.Add("y", 0.78f);
 		hash.Add("time", 1f);
 		hash.Add("looptype", iTween.LoopType.loop);
 		iTween.ScaleTo(heart, hash);
 
-		grid.map.setLevel(2);
+
+		SetLevel(2);
+
+	}
+
+	private void SetLevel(int level) {
+		grid.map.setLevel(level);
+
+		GameObject[] allPlayer = GameObject.FindGameObjectsWithTag("Player");
+		foreach(GameObject player in allPlayer) {
+			GridMovable gridMovable = player.GetComponent<GridMovable>();
+			gridMovable.SetInitialPosition();
+		}
 	}
 
 	IEnumerator Timer() {
@@ -96,11 +116,34 @@ public class GameManager : MonoBehaviour {
 
 	public void WonPuzzle () {
 
+		Debug.Log ("Won PUZZLE");
+
+		currentPuzzleIndex++;
+
+
+		if(currentChallenge == 1)
+		{
+			if(currentPuzzleIndex > puzzlesChallenge1.Length-1)
+			{
+				Debug.Log("FINISHED FULL CHALLENGE");
+			}
+			else
+			{
+				SetLevel(puzzlesChallenge1[currentPuzzleIndex]);
+				bgBehavior.FadeInNextImage();
+			}
+		}
+		else
+		{
+			Debug.LogError("Challenge not set!");
+		}
+
+
+
 		if(gotItBtn != null) {
 			gotItBtn.SetActive (true);
 		}
-
-		Debug.Log ("!!!!! WON");	
+	
 	}
 
 

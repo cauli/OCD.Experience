@@ -52,6 +52,7 @@
      <Compile Include="Assets\LineInfo.cs" />
      <Compile Include="Assets\Map.cs" />
      <Compile Include="Assets\Start Screen\SceneManager.cs" />
+     <Compile Include="Assets\TextLine.cs" />
      <Compile Include="Assets\canvas.cs" />
      <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
  <Reference Include="UnityEngine.Networking">
