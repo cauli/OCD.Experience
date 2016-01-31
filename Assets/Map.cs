@@ -387,7 +387,7 @@ public class Map : MonoBehaviour {
 		// RED
 		verticalArray  = new int[,]    	  { { 1, 2, 1, 0, 0, 0 }, 
 											{ 0, 1, 1, 1, 0, 0 },
-											{ 0, 0, 1, 1, 1, 0 },
+											{ 0, 0, 1, 2, 1, 0 },
 											{ 0, 0, 0, 0, 0, 0 },
 											{ 0, 0, 0, 0, 0, 0 } };
 

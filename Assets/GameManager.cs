@@ -102,6 +102,13 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	private void StopAllPlayers() {
+		GameObject[] allPlayer = GameObject.FindGameObjectsWithTag("Player");
+		foreach(GameObject player in allPlayer) {
+			iTween.Stop(player);
+		}
+	}
+
 	private void SetLevel(int level) {
 		grid.map.setLevel(level);
 
@@ -129,7 +136,7 @@ public class GameManager : MonoBehaviour {
 			}
 
 
-			print (totalCurrentTime);
+			//print (totalCurrentTime);
 
 			float heartRate = startTotalTime - totalCurrentTime;
 
@@ -147,6 +154,8 @@ public class GameManager : MonoBehaviour {
 	public void WonPuzzle () {
 
 		Debug.Log ("Won PUZZLE");
+
+		StopAllPlayers();
 
 		currentPuzzleIndex++;
 
@@ -182,6 +191,9 @@ public class GameManager : MonoBehaviour {
 		numberAttempts++;
 		attemptTxt.text = numberAttempts.ToString();
 
+		currentPuzzleIndex = 0;
+		currentChallenge = 1;
+
 		StartCoroutine(FadeIn(retryScreen));
 
 		timerRunning = false;
@@ -191,6 +203,10 @@ public class GameManager : MonoBehaviour {
 
 	public void TimesUp () {
 		timerRunning = false;
+
+		currentPuzzleIndex = 0;
+		currentChallenge = 1;
+
 		Debug.LogError ("!!!!! LOST TIMES UP");
 	}
 }
