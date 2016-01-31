@@ -11,10 +11,13 @@ public class GameManager : MonoBehaviour {
 	public CanvasGroup canvasGroup;
 	public GameObject retryObj;
 	public CanvasGroup retryScreen;
+	public GameObject endObj;
+	public CanvasGroup endScreen;
 	public BGImagesBehavior bgBehavior;
 
 	public GameObject gotItBtn;
 	public Text attemptTxt;
+	public Text attemptEndTxt;
 
 	public Text info;
 
@@ -23,6 +26,8 @@ public class GameManager : MonoBehaviour {
 
 	int[] puzzlesChallenge1 = new int[6] {2,6,11,5,8,7};
 	public Transform[] ballonsChallenge1;
+	int[] puzzlesChallenge2 = new int[3] {8,9,10};
+	public Transform[] ballonsChallenge2;
 
 	int currentChallenge = 1;
 	private int currentPuzzleIndex = 0;
@@ -73,8 +78,10 @@ public class GameManager : MonoBehaviour {
 	// show retry screen
 	IEnumerator FadeIn(CanvasGroup canvasGroup)
 	{
-		if ( !retryObj.activeSelf ) {
+		if (!retryObj.activeSelf && canvasGroup == retryScreen) {
 			retryObj.SetActive (true);
+		} else if (!endObj.activeSelf && canvasGroup == endScreen) {
+			endObj.SetActive (true);
 		}
 
 		float time = 1f;
@@ -277,6 +284,11 @@ public class GameManager : MonoBehaviour {
 		else
 		{
 			Debug.LogError("Challenge not set!");
+
+			numberAttempts++;
+			attemptEndTxt.text = "it took you <color=00fff6>" + numberAttempts.ToString() + "</color> attempt(s)";
+
+			StartCoroutine (FadeIn (endScreen));
 		}
 
 
