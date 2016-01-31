@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 	public Grid grid;
 
 	public CanvasGroup canvasGroup;
+	public GameObject retryObj;
+	public CanvasGroup retryScreen;
 	public BGImagesBehavior bgBehavior;
 
 	public GameObject gotItBtn;
@@ -17,7 +19,7 @@ public class GameManager : MonoBehaviour {
 	float totalCurrentTime = -1;
 	float startTotalTime = -1;
 
-	//private int numberAttempts = 0;
+	private int numberAttempts = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -38,6 +40,22 @@ public class GameManager : MonoBehaviour {
 			yield return null;
 		}
 	}
+
+	// show retry screen
+	IEnumerator FadeIn()
+	{
+		if ( !retryObj.activeSelf ) {
+			retryObj.SetActive (true);
+		}
+
+		float time = 1f;
+		while(retryScreen.alpha < 1)
+		{
+			retryScreen.alpha += Time.deltaTime / time;
+			yield return null;
+		}
+	}
+
 		
 	public void StartPuzzle(float totalTime) {
 		StartCoroutine("FadeOut");
@@ -106,8 +124,10 @@ public class GameManager : MonoBehaviour {
 
 	public void LostPuzzle () {
 		// increasing the number of attempts in the UI
-		//numberAttempts++;
-		//attemptTxt.text = numberAttempts.ToString();
+		numberAttempts++;
+		attemptTxt.text = numberAttempts.ToString();
+
+		StartCoroutine("FadeIn");
 
 		Debug.LogError ("!!!!! LOST, CANT MOVE");
 	}

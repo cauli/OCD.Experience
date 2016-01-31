@@ -119,7 +119,7 @@ public class GridMovable : MonoBehaviour {
 				currentY = destinyY;
 
 				if (grid.CheckWon ()) {
-					manager.WonPuzzle ();
+					manager.LostPuzzle ();
 				} else {
 					// Nessa posição nova, se o usuário não puder se mexer, perdeu o jogo.
 					if (!grid.canMove (currentX, currentY)) {
