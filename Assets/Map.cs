@@ -299,15 +299,15 @@ public class Map : MonoBehaviour {
 	 */
 	void setLevelTwo() {
 		// RED
-		verticalArray  = new int[,]       { { 0, 1, 1, 0 }, 
-									     	{ 1, 1, 1, 1 },
+		verticalArray  = new int[,]       { { 0, 2, 2, 0 }, 
+									     	{ 2, 2, 2, 2 },
 											{ 0, 0, 0, 0 },
 											{ 0, 0, 0, 0 } };
 
 		// BLUE
-		horizontalArray  = new int[,]     { { 0, 1, 0, 0 }, 
-											{ 1, 1, 1, 0 },
-											{ 1, 0, 1, 0 },
+		horizontalArray  = new int[,]     { { 0, 2, 0, 0 }, 
+											{ 2, 2, 2, 0 },
+											{ 2, 0, 2, 0 },
 											{ 0, 0, 0, 0 } };
 
 		posArray         = new int[,]    {  { 0, 0, 0, 0 }, 
@@ -317,7 +317,7 @@ public class Map : MonoBehaviour {
 
 		l = 6;
 
-		GameManager.CameraPosition(new Vector3(80.4f, 79.9f, -84.9f));
+		GameManager.CameraPositionOnly(new Vector3(80.4f, 79.9f, -84.9f));
 	}
 
 	// DRAGON
@@ -386,7 +386,7 @@ public class Map : MonoBehaviour {
 	void setLevelFive() {
 		// RED
 		verticalArray  = new int[,]    	  { { 1, 2, 1, 0, 0, 0 }, 
-											{ 0, 1, 1, 1, 0, 0 },
+											{ 0, 1, 3, 1, 0, 0 },
 											{ 0, 0, 1, 2, 1, 0 },
 											{ 0, 0, 0, 0, 0, 0 },
 											{ 0, 0, 0, 0, 0, 0 } };
@@ -403,6 +403,11 @@ public class Map : MonoBehaviour {
 											{ 0, 0, 0, 0, 0, 0 },
 											{ 0, 0, 0, 0, 0, 0 },
 											{ 0, 0, 0, 0, 0, 0 } };
+
+
+		GameManager.CameraPosition(new Vector3(80.4f, 83.1f, -84.2f), 18);
+
+
 
 	}
 
@@ -443,20 +448,23 @@ public class Map : MonoBehaviour {
 	void setLevelSeven() {
 		// RED
 		verticalArray  = new int[,]       { { 0, 2, 2, 0 }, 
-											{ 0, 1, 1, 0 },
+											{ 0, 3, 3, 0 },
 											{ 0, 2, 2, 0 },
 											{ 0, 0, 0, 0 } };
 
 		// BLUE
 		horizontalArray  = new int[,]     { { 0, 0, 0, 0 }, 
-											{ 2, 1, 2, 0 },
-											{ 2, 1, 2, 0 },
+											{ 2, 3, 2, 0 },
+											{ 2, 3, 2, 0 },
 											{ 0, 0, 0, 0 } };
 
 		posArray         = new int[,]    {  { 0, 0, 0, 0 }, 
 											{ 0, 0, 0, 0 },
 											{ 0, 1, 0, 0 },
 											{ 0, 0, 0, 0 } };
+
+		l = 6;
+		GameManager.CameraPosition(new Vector3(99.1f, 95.5f, -101.3f), 15);
 
 	}
 
@@ -497,6 +505,9 @@ public class Map : MonoBehaviour {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
 		};
+
+
+		l = 3;
 
 	}
 

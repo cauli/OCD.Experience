@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour {
 	public GameObject gotItBtn;
 	public Text attemptTxt;
 
+	public Text info;
+
 	float totalCurrentTime = -1;
 	float startTotalTime = -1;
 
-	int[] puzzlesChallenge1 = new int[3] {2,5,6};
+	int[] puzzlesChallenge1 = new int[3] {2,5,7};
 
 
 	int currentChallenge = 1;
@@ -31,7 +33,11 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		info.text = getTextInfo();
+	}
+
+	string getTextInfo() {
+		return "puzzle " + (currentPuzzleIndex+1) +"<color=#26c6da><size=29>/</size></color>" + puzzlesChallenge1.Length;
 	}
 	
 	// Update is called once per frame
@@ -53,8 +59,14 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public static void CameraPosition(Vector3 position) {
+	public static void CameraPositionOnly(Vector3 position) {
 		Camera.main.transform.position = position;
+		Camera.main.orthographicSize = 15;
+	}
+
+	public static void CameraPosition(Vector3 position, int size = 15) {
+		Camera.main.transform.position = position;
+		Camera.main.orthographicSize = size;
 	}
 
 
@@ -98,8 +110,9 @@ public class GameManager : MonoBehaviour {
 		iTween.ScaleTo(heart, hash);
 
 
-		SetLevel(2);
+		SetLevel(puzzlesChallenge1[0]);
 
+		info.text = getTextInfo();
 	}
 
 	private void StopAllPlayers() {
@@ -182,6 +195,8 @@ public class GameManager : MonoBehaviour {
 		if(gotItBtn != null) {
 			gotItBtn.SetActive (true);
 		}
+
+		info.text = getTextInfo();
 	
 	}
 
@@ -199,13 +214,20 @@ public class GameManager : MonoBehaviour {
 		timerRunning = false;
 
 		Debug.LogError ("!!!!! LOST, CANT MOVE");
+
 	}
 
 	public void TimesUp () {
-		timerRunning = false;
+		// increasing the number of attempts in the UI
+		numberAttempts++;
+		attemptTxt.text = numberAttempts.ToString();
 
 		currentPuzzleIndex = 0;
 		currentChallenge = 1;
+
+		StartCoroutine(FadeIn(retryScreen));
+
+		timerRunning = false;
 
 		Debug.LogError ("!!!!! LOST TIMES UP");
 	}

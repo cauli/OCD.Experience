@@ -116,7 +116,7 @@ public class GridMovable : MonoBehaviour {
 
 				Vector3 destinyVector3 = XYtoVector3 (destinyX, destinyY);
 
-				iTween.MoveTo(gameObject,iTween.Hash("x",destinyVector3.x,"y",destinyVector3.y,"time",0.5,"oncomplete","CompletedMove","looptype",iTween.LoopType.none));				
+				iTween.MoveTo(gameObject,iTween.Hash("x",destinyVector3.x,"y",destinyVector3.y,"z", -0.1f,"time",0.5,"oncomplete","CompletedMove","looptype",iTween.LoopType.none));				
 
 				grid.map.drawLinesForPuzzle ();
 
