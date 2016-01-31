@@ -150,6 +150,8 @@ public class Grid : MonoBehaviour {
 			return false;
 		}
 	}
+		
+
 
 	public bool CheckWon() {
 		for (int row = 0; row < map.verticalArray.GetLength (0); row++) {

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class GridMovable : MonoBehaviour {
@@ -25,7 +26,7 @@ public class GridMovable : MonoBehaviour {
 		// Setando o length para o mesmo do Grid PAI
 		l = grid.map.l;
 
-		SetInitialPosition();
+		//SetInitialPosition();
 	}
 
 	public void SetInitialPosition() {
@@ -90,6 +91,10 @@ public class GridMovable : MonoBehaviour {
 
 	bool MoveIfPossible(int destinyX,  int destinyY, int cX, int cY, Way way, Direction direction) {
 
+		if(!active) {
+			return false;
+		}
+
 		int posX = -100;
 		int posY = -100;
 
@@ -131,13 +136,14 @@ public class GridMovable : MonoBehaviour {
 				currentX = destinyX;
 				currentY = destinyY;
 
+				//StartCoroutine(grid.CheckWonDelay)
 				if (grid.CheckWon ()) {
 					//manager.WonPuzzle ();
 				} else {
 					// Nessa posição nova, se o usuário não puder se mexer, perdeu o jogo.
-					if (!grid.canMove (currentX, currentY)) {
+					/*if (!grid.canMove (currentX, currentY)) {
 						manager.LostPuzzle ();
-					}
+					}*/
 				}
 			}
 			else {
@@ -214,19 +220,21 @@ public class GridMovable : MonoBehaviour {
 	 */
 	Vector3 GetStartPosition(Grid grid) {
 
-		Debug.Log ("ID " + id);
+		Debug.Log ("SEARCHING FOR ID " + id);
 
 		for (int row = 0; row < grid.map.posArray.GetLength (0); row++) {
+			
 			for (int col = 0; col < grid.map.posArray.GetLength (1); col++) {
+				Debug.Log((int)grid.map.posArray[row, col]);
 				if ((int)grid.map.posArray[row, col] == id) {
 					currentY = row;
 					currentX = col;
 
 					active = true;
+					this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+					//gameObject.SetActive (true);
 
-					gameObject.SetActive (true);
-
-					Debug.Log ("FOUND ID " + id + " POSITION ON LEVEL" + (int)grid.map.posArray [row, col] + "CX : " + row + " CY :" + col);
+					Debug.LogError ("FOUND ID " + id + " POSITION ON LEVEL" + (int)grid.map.posArray [row, col] + "CX : " + row + " CY :" + col);
 
 					return XYtoVector3 (col, row);
 				} else {
@@ -236,8 +244,10 @@ public class GridMovable : MonoBehaviour {
 
 		}
 
+
+		this.gameObject.GetComponent<SpriteRenderer>().color = Color.clear;
 		active = false;
-		gameObject.SetActive(false);
+		//gameObject.SetActive(false);
 		return Vector3.zero;
 	}
 
