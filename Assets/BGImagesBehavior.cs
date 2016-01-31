@@ -20,19 +20,24 @@ public class BGImagesBehavior : MonoBehaviour {
 	}
 
 	public void MoveImage() {
-		uGuiElement = imageStates[currentImageState].GetComponent<RectTransform>();
 
-		targetPosition = new Vector2(uGuiElement.anchoredPosition.x, animateYto);
+		if ( Application.loadedLevelName == "Scene" ) {
+			
+			uGuiElement = imageStates[currentImageState].GetComponent<RectTransform>();
 
-		iTween.ValueTo(gameObject, iTween.Hash(
-			"from", uGuiElement.anchoredPosition,
-			"to", targetPosition,
-			"time", 2.0f,
-			"easeType", iTween.EaseType.easeInOutCubic,
-			"onupdatetarget", this.gameObject, 
-			"onupdate", "MoveGuiElement"));
+			targetPosition = new Vector2(uGuiElement.anchoredPosition.x, animateYto);
 
-
+			iTween.ValueTo(gameObject, iTween.Hash(
+				"from", uGuiElement.anchoredPosition,
+				"to", targetPosition,
+				"time", 2.0f,
+				"easeType", iTween.EaseType.easeInOutCubic,
+				"onupdatetarget", this.gameObject, 
+				"onupdate", "MoveGuiElement"));
+			
+		} else {
+			print ("outra cena");
+		}
 
 	}
 
