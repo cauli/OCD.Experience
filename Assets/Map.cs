@@ -115,6 +115,8 @@ public class Map : MonoBehaviour {
 			setLevelTen ();
 		} else if (level == 11) {
 			setLevelEleven ();
+		} else if (level == 12) {
+			setLevelTwelve (); // 1-3
 		} else {
 			Debug.LogError ("Invalid Level!");
 		}
@@ -580,6 +582,11 @@ public class Map : MonoBehaviour {
 			{ 0, 0, 0, 0 },
 			{ 0, 0, 0, 0 },
 			{ 0, 0, 0,-1 } };
+
+
+		l = 6;
+
+		GameManager.CameraPosition(new Vector3(73.32f, 75.5f, -76.0f),17);
 	}
 
 	/**
@@ -624,6 +631,49 @@ public class Map : MonoBehaviour {
 	}
 
 
+
+	/**
+	 * 
+	 *   
+	 * 
+	 *   ‗ _   _ _
+	 *    |_|‗|‗║_|‗
+	 *    ║ |_| |_|
+	 * 
+	 * 
+	 */
+	void setLevelTwelve() {
+		// RED
+		verticalArray = new int[,] {
+			{ 0, 1, 1, 1, 2, 1, 0 }, 
+			{ 0, 2, 1, 1, 1, 1, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+
+		// BLUE
+		horizontalArray = new int[,] {
+			{ 2, 1, 0, 1, 1, 0, 0 }, 
+			{ 0, 1, 2, 2, 1, 3, 0 },
+			{ 0, 0, 1, 0, 1, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+		posArray = new int[,] {
+			{ 0, 0, 0, 0, 0, 0, 0 }, 
+			{ 0, 0, 0, 0, 0, 0, 1 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+		l = 6;
+
+		GameManager.CameraPosition(new Vector3(73.32f, 83.0f, -80.0f),17);
+	}
 
 
 }
