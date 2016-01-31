@@ -26,14 +26,14 @@ public class GameManager : MonoBehaviour {
 
 	int[] puzzlesChallenge1 = new int[6] {2,11,5,12,8,10};
 	public Transform[] ballonsChallenge1;
-	int[] puzzlesChallenge2 = new int[6] {17,15,16,13,18,14};
+	int[] puzzlesChallenge2 = new int[6] {14,17,15,16,13,18};
 	public Transform[] ballonsChallenge2;
 
 	public static int currentChallenge = 0;
 	private int currentPuzzleIndex = 0;
 
 	//private int numberAttempts = 0;
-	private static int numberAttempts = 0;
+	private static int numberAttempts = 1;
 	private bool timerRunning = true;
 
 	public Transform p1;
@@ -380,6 +380,12 @@ public class GameManager : MonoBehaviour {
 		else if(currentChallenge == 2) {
 			if(currentPuzzleIndex > puzzlesChallenge2.Length-1)
 			{
+				currentPuzzleIndex = 0;
+				currentChallenge = 1;
+
+				if(attemptTxt != null) {
+					attemptEndTxt.text = "it took you <color=00fff6>" + numberAttempts.ToString() + "</color> attempt(s)";
+				}
 
 				StartCoroutine (FadeIn (endScreen));
 
