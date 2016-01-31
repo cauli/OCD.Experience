@@ -217,6 +217,12 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	public void EndGame () {
+		numberAttempts++;
+		attemptTxt.text = "with <color=#00fff6>" + numberAttempts.ToString () + "</color> attempt(s)";
+		Debug.Log ("End Game");
+	}
+
 	public void TimesUp () {
 		// increasing the number of attempts in the UI
 		numberAttempts++;
