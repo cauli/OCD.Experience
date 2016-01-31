@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour {
 	
 	}
 		
-	IEnumerator FadeOut()
+	IEnumerator FadeOut(CanvasGroup canvasGroup)
 	{
 		float time = 1f;
 		while(canvasGroup.alpha > 0)
@@ -40,27 +40,34 @@ public class GameManager : MonoBehaviour {
 			canvasGroup.alpha -= Time.deltaTime / time;
 			yield return null;
 		}
+
+		if ( retryObj.activeSelf ) {
+			retryObj.SetActive (false);
+		}
 	}
 
 	// show retry screen
-	IEnumerator FadeIn()
+	IEnumerator FadeIn(CanvasGroup canvasGroup)
 	{
 		if ( !retryObj.activeSelf ) {
 			retryObj.SetActive (true);
 		}
 
 		float time = 1f;
-		while(retryScreen.alpha < 1)
+		while(canvasGroup.alpha < 1)
 		{
-			retryScreen.alpha += Time.deltaTime / time;
+			canvasGroup.alpha += Time.deltaTime / time;
 			yield return null;
 		}
 	}
 
 		
 	public void StartPuzzle(float totalTime) {
-		StartCoroutine("FadeOut");
-		
+		StartCoroutine(FadeOut(canvasGroup));
+
+		if ( retryObj.activeSelf ) {
+			StartCoroutine(FadeOut(retryScreen));
+		}		
 
 		bgBehavior.MoveImage();
 
@@ -129,7 +136,7 @@ public class GameManager : MonoBehaviour {
 		numberAttempts++;
 		attemptTxt.text = numberAttempts.ToString();
 
-		StartCoroutine("FadeIn");
+		StartCoroutine(FadeIn(retryScreen));
 
 		timerRunning = false;
 
