@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour {
 	int[] puzzlesChallenge2 = new int[3] {8,9,10};
 	public Transform[] ballonsChallenge2;
 
-	int currentChallenge = 1;
+	public static int currentChallenge = 1;
 	private int currentPuzzleIndex = 0;
 
 	//private int numberAttempts = 0;
@@ -38,7 +38,10 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		info.text = getTextInfo();
+		if(info != null)
+		{
+			info.text = getTextInfo();
+		}
 	}
 
 	string getTextInfo() {
@@ -49,7 +52,12 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 	
 	}
-		
+
+	public void SetCurrentChallengeNumber(int challengeNumber) {
+		Debug.LogWarning("I am setting current challenge number to " + challengeNumber);
+		currentChallenge = challengeNumber;
+	}
+
 	IEnumerator FadeOut(CanvasGroup canvasGroup)
 	{
 		float time = 1f;
@@ -78,6 +86,11 @@ public class GameManager : MonoBehaviour {
 	// show retry screen
 	IEnumerator FadeIn(CanvasGroup canvasGroup)
 	{
+		if(retryObj == null) {
+			Debug.LogWarning("Retry object is null. If you are on the tutorial then it is ok");
+			return false;
+		}
+
 		if (!retryObj.activeSelf && canvasGroup == retryScreen) {
 			retryObj.SetActive (true);
 		} else if (!endObj.activeSelf && canvasGroup == endScreen) {
@@ -118,7 +131,14 @@ public class GameManager : MonoBehaviour {
 		iTween.ScaleTo(heart, hash);
 
 
-		SetLevel(puzzlesChallenge1[0]);
+		if(currentChallenge == 0) {
+		
+		}	else if(currentChallenge == 1) {
+			SetLevel(puzzlesChallenge1[0]);
+		} else if(currentChallenge == 2) {
+			SetLevel(puzzlesChallenge2[0]);
+		} 
+
 
 		info.text = getTextInfo();
 	}
@@ -131,7 +151,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void SetLevel(int level) {
-		
+
+		Debug.LogWarning("I am trying to set level " + level);
+
 		grid.map.setLevel(level);
 
 		GameObject[] allPlayer = GameObject.FindGameObjectsWithTag("Player");
@@ -141,46 +163,52 @@ public class GameManager : MonoBehaviour {
 		}
 
 
-		ShowBalloon(currentPuzzleIndex);
+		if(currentChallenge == 1) {
+			ShowBalloon(currentPuzzleIndex, ballonsChallenge1);
+		} else if(currentChallenge == 2) {
+			ShowBalloon(currentPuzzleIndex, ballonsChallenge2);
+		}
 	}
+
+	Transform[] currentBalloonArray;
 
 	int lastBalloonIndex = 0;
 
 	private void OnColorUpdated(Color color)
 	{
-		ballonsChallenge1[lastBalloonIndex].GetComponent<Image>().color = color;
+		currentBalloonArray[lastBalloonIndex].GetComponent<Image>().color = color;
 	}
 
 	private void OnColorUpdated2(Color color)
 	{
-		ballonsChallenge1[lastBalloonIndex].GetComponent<Image>().color = color;
+		currentBalloonArray[lastBalloonIndex].GetComponent<Image>().color = color;
 	}
 		
 	public void MoveGuiElement(Vector2 position){
-		ballonsChallenge1[lastBalloonIndex].GetComponent<RectTransform>().anchoredPosition = position;
+		currentBalloonArray[lastBalloonIndex].GetComponent<RectTransform>().anchoredPosition = position;
 	}
 
-	private void ShowBalloon(int index) {
-
-		Debug.Log(ballonsChallenge1.Length + "!" + index);
+	private void ShowBalloon(int index, Transform[] balloons) {
+		currentBalloonArray = balloons;
+		Debug.Log(balloons.Length + "!" + index);
 
 		// Setar color de todos baloes anteriores pra transparente pra garantir que nao vai dar overlap
 		for(int i=0; i<index; i++)
 		{
-			ballonsChallenge1[i].GetComponent<Image>().color = Color.clear;
+			balloons[i].GetComponent<Image>().color = Color.clear;
 		}
 
-		if(ballonsChallenge1[index] != null) {
+		if(balloons[index] != null) {
 			lastBalloonIndex = index;
 
-			Transform t = ballonsChallenge1[index];
+			Transform t = balloons[index];
 			GameObject g = t.gameObject;
 
-			Vector2 initialPos = ballonsChallenge1[lastBalloonIndex].GetComponent<RectTransform>().anchoredPosition;
+			Vector2 initialPos = balloons[lastBalloonIndex].GetComponent<RectTransform>().anchoredPosition;
 			Vector2 preInitialPos = initialPos - new Vector2(0f,20f);
 			t.transform.position = preInitialPos;
 
-			iTween.ValueTo(ballonsChallenge1[lastBalloonIndex].gameObject, iTween.Hash(
+			iTween.ValueTo(balloons[lastBalloonIndex].gameObject, iTween.Hash(
 				"from", preInitialPos,
 				"to", initialPos,
 				"time", 1.0f,
@@ -191,16 +219,16 @@ public class GameManager : MonoBehaviour {
 
 
 			Hashtable tweenParams = new Hashtable();
-			tweenParams.Add("from", ballonsChallenge1[lastBalloonIndex].GetComponent<Image>().color);
+			tweenParams.Add("from", balloons[lastBalloonIndex].GetComponent<Image>().color);
 			tweenParams.Add("to", Color.white);
 			tweenParams.Add("time", 1.0f);
 			tweenParams.Add("delay", 0.5f);
 			tweenParams.Add("onupdate", "OnColorUpdated");
 			tweenParams.Add("onupdatetarget", this.gameObject);
 
-			iTween.ValueTo(ballonsChallenge1[lastBalloonIndex].gameObject, tweenParams);
+			iTween.ValueTo(balloons[lastBalloonIndex].gameObject, tweenParams);
 
-			StartCoroutine(FadeOut(ballonsChallenge1[lastBalloonIndex].gameObject));
+			StartCoroutine(FadeOut(balloons[lastBalloonIndex].gameObject));
 		}
 	}
 
@@ -264,15 +292,51 @@ public class GameManager : MonoBehaviour {
 		currentPuzzleIndex++;
 
 
-		if(currentChallenge == 1)
+		// TODO everything here is hardcoded. But this is the game jam way.
+		if(currentChallenge == 0)
+		{
+			Debug.Log("Show OK I GOT IT button");
+			if(gotItBtn != null)
+			{
+				gotItBtn.SetActive(true);
+			}
+		}
+		else if(currentChallenge == 1)
 		{
 			if(currentPuzzleIndex > puzzlesChallenge1.Length-1)
 			{
-				Debug.Log("FINISHED FULL CHALLENGE");
+				currentPuzzleIndex = 0;
+				currentChallenge = 2;
+
+
+				StartCoroutine (FadeIn (endScreen));
+
+				Debug.Log("FINISHED FULL CHALLENGE 1");
 			}
 			else
 			{
 				SetLevel(puzzlesChallenge1[currentPuzzleIndex]);
+
+
+
+				// TODO HACK Xunxo só pra mudar em telas impares
+				if(currentPuzzleIndex % 2 == 0)
+				{
+					bgBehavior.FadeInNextImage();
+				}
+			}
+		}
+		else if(currentChallenge == 2) {
+			if(currentPuzzleIndex > puzzlesChallenge2.Length-1)
+			{
+
+				StartCoroutine (FadeIn (endScreen));
+
+				Debug.Log("FINISHED FULL GAME");
+			}
+			else
+			{
+				SetLevel(puzzlesChallenge2[currentPuzzleIndex]);
 
 				// TODO HACK Xunxo só pra mudar em telas impares
 				if(currentPuzzleIndex % 2 == 0)
@@ -283,10 +347,13 @@ public class GameManager : MonoBehaviour {
 		}
 		else
 		{
-			Debug.LogError("Challenge not set!");
+			//Debug.LogWarning("Challenge not set!");
 
 			numberAttempts++;
-			attemptEndTxt.text = "it took you <color=00fff6>" + numberAttempts.ToString() + "</color> attempt(s)";
+
+			if(attemptTxt != null) {
+				attemptEndTxt.text = "it took you <color=00fff6>" + numberAttempts.ToString() + "</color> attempt(s)";
+			}
 
 			StartCoroutine (FadeIn (endScreen));
 		}
@@ -297,7 +364,10 @@ public class GameManager : MonoBehaviour {
 			gotItBtn.SetActive (true);
 		}
 
-		info.text = getTextInfo();
+		if(info != null)
+		{
+			info.text = getTextInfo();
+		}
 	
 	}
 
@@ -308,7 +378,7 @@ public class GameManager : MonoBehaviour {
 		attemptTxt.text = numberAttempts.ToString();
 
 		currentPuzzleIndex = 0;
-		currentChallenge = 1;
+		//currentChallenge = 1;
 
 		StartCoroutine(FadeIn(retryScreen));
 
@@ -330,7 +400,7 @@ public class GameManager : MonoBehaviour {
 		attemptTxt.text = numberAttempts.ToString();
 
 		currentPuzzleIndex = 0;
-		currentChallenge = 1;
+		//currentChallenge = 1;
 
 		StartCoroutine(FadeIn(retryScreen));
 
