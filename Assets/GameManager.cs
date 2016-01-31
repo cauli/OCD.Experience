@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 	public Grid grid;
 
 	public CanvasGroup canvasGroup;
+	public GameObject retryObj;
+	public CanvasGroup retryScreen;
 	public BGImagesBehavior bgBehavior;
 
 	public GameObject gotItBtn;
@@ -24,6 +26,8 @@ public class GameManager : MonoBehaviour {
 	private int currentPuzzleIndex = 0;
 
 	//private int numberAttempts = 0;
+	private int numberAttempts = 0;
+	private bool timerRunning = true;
 
 	// Use this for initialization
 	void Start () {
@@ -35,7 +39,7 @@ public class GameManager : MonoBehaviour {
 	
 	}
 		
-	IEnumerator FadeOut()
+	IEnumerator FadeOut(CanvasGroup canvasGroup)
 	{
 		float time = 1f;
 		while(canvasGroup.alpha > 0)
@@ -43,21 +47,46 @@ public class GameManager : MonoBehaviour {
 			canvasGroup.alpha -= Time.deltaTime / time;
 			yield return null;
 		}
+
+		if ( retryObj.activeSelf ) {
+			retryObj.SetActive (false);
+		}
 	}
 
 	public static void CameraPosition(Vector3 position) {
 		Camera.main.transform.position = position;
 	}
 
-	public void StartPuzzle(float totalTime) {
-		StartCoroutine("FadeOut");
+
+	// show retry screen
+	IEnumerator FadeIn(CanvasGroup canvasGroup)
+	{
+		if ( !retryObj.activeSelf ) {
+			retryObj.SetActive (true);
+		}
+
+		float time = 1f;
+		while(canvasGroup.alpha < 1)
+		{
+			canvasGroup.alpha += Time.deltaTime / time;
+			yield return null;
+		}
+	}
+
 		
+	public void StartPuzzle(float totalTime) {
+		StartCoroutine(FadeOut(canvasGroup));
+
+		if ( retryObj.activeSelf ) {
+			StartCoroutine(FadeOut(retryScreen));
+		}		
 
 		bgBehavior.MoveImage();
 
 		startTotalTime = totalTime;
 		totalCurrentTime = totalTime;
 
+		timerRunning = true;
 		StartCoroutine(Timer());
 
 		System.Collections.Hashtable hash =
@@ -84,7 +113,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	IEnumerator Timer() {
-		while (true) {
+		while (timerRunning) {
 			yield return new WaitForSeconds(0.1f);
 			totalCurrentTime -= 0.1f;
 
@@ -100,7 +129,7 @@ public class GameManager : MonoBehaviour {
 			}
 
 
-
+			print (totalCurrentTime);
 
 			float heartRate = startTotalTime - totalCurrentTime;
 
@@ -150,13 +179,18 @@ public class GameManager : MonoBehaviour {
 
 	public void LostPuzzle () {
 		// increasing the number of attempts in the UI
-		//numberAttempts++;
-		//attemptTxt.text = numberAttempts.ToString();
+		numberAttempts++;
+		attemptTxt.text = numberAttempts.ToString();
+
+		StartCoroutine(FadeIn(retryScreen));
+
+		timerRunning = false;
 
 		Debug.LogError ("!!!!! LOST, CANT MOVE");
 	}
 
 	public void TimesUp () {
+		timerRunning = false;
 		Debug.LogError ("!!!!! LOST TIMES UP");
 	}
 }
