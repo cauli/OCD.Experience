@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour {
 
 	int[] puzzlesChallenge1 = new int[6] {2,11,5,12,8,10};
 	public Transform[] ballonsChallenge1;
-	int[] puzzlesChallenge2 = new int[5] {13,14,8,9,10};
+	int[] puzzlesChallenge2 = new int[6] {17,15,16,13,18,14};
 	public Transform[] ballonsChallenge2;
 
 	public static int currentChallenge = 0;
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	string getTextInfo() {
-		return "puzzle " + (currentPuzzleIndex+1) +"<color=#26c6da><size=29>/</size></color>" + puzzlesChallenge1.Length;
+		return "puzzle " + (currentPuzzleIndex+1) +"<color=#26c6da>/</color>" + puzzlesChallenge1.Length;
 	}
 	
 	// Update is called once per frame
