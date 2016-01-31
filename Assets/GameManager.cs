@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
 
 	int[] puzzlesChallenge1 = new int[3] {2,5,6};
 
+
 	int currentChallenge = 1;
 	private int currentPuzzleIndex = 0;
 

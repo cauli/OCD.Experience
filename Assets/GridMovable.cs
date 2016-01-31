@@ -23,7 +23,7 @@ public class GridMovable : MonoBehaviour {
 	void Start () {
 
 		// Setando o length para o mesmo do Grid PAI
-		l = grid.l;
+		l = grid.map.l;
 
 		SetInitialPosition();
 	}
@@ -235,6 +235,8 @@ public class GridMovable : MonoBehaviour {
 
 
 	Vector3 XYtoVector3(int col, int row) {
+		l = grid.map.l;
+
 		return new Vector3 (row * l, col * l, 0);
 	}
 }

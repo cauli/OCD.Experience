@@ -10,6 +10,11 @@ public class Map : MonoBehaviour {
 	public Transform line5;
 	public Transform line6;
 
+
+	public Transform lineCount;
+
+
+
 	public GameManager gameManager;
 
 	/*
@@ -127,6 +132,12 @@ public class Map : MonoBehaviour {
 			Destroy (obj);
 		}
 
+		GameObject[] allCount = GameObject.FindGameObjectsWithTag("LineCount");
+		foreach(GameObject obj in allCount) {
+			Destroy (obj);
+		}
+
+
 		for (int row = 0; row < verticalArray.GetLength (0); row++) {
 			for (int col = 0; col < verticalArray.GetLength (1); col++) {
 				if ((int)verticalArray [row,col] > 0) {
@@ -152,6 +163,7 @@ public class Map : MonoBehaviour {
 						}
 					}
 
+
 					if (line != null) {
 						LineRenderer renderer = (LineRenderer)line.gameObject.GetComponent<LineRenderer> ();
 
@@ -159,6 +171,14 @@ public class Map : MonoBehaviour {
 
 						info.startVector3 = new Vector3 (row * l, col * l, 0);
 						info.endVector3 = new Vector3 (row*l+ (1*l), col*l,0);
+
+						//Quaternion a = Quaternion.Euler(270f, 0f, 0f) * Quaternion.Euler(0f, 0f, 0f);
+						Transform count = (Transform)Instantiate (lineCount, new Vector3 (row * l + (0.5f*l), col * l, 0.0f), Quaternion.identity);
+
+						count.GetComponent<TextMesh>().text = v.ToString();
+
+						count.transform.Rotate(new Vector3(0f, 270f, 90f));
+
 					}
 				}
 			}
@@ -198,6 +218,14 @@ public class Map : MonoBehaviour {
 
 						info.startVector3 = new Vector3 (row * l, col * l, 0);
 						info.endVector3 = new Vector3 (row*l, col*l + (1*l),0);
+
+
+						Transform count = (Transform)Instantiate (lineCount, new Vector3 (row * l , col * l + (0.5f*l), 0.0f), Quaternion.identity);
+
+						count.GetComponent<TextMesh>().text = v.ToString();
+
+						count.transform.Rotate(new Vector3(0f, 270f, 90f));
+
 					}
 				}
 			}
