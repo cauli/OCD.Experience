@@ -59,10 +59,8 @@ public class GameManager : MonoBehaviour {
 				gridMovable.SetInitialPosition();
 			}
 		}
-			
 
-
-
+		//MusicManager.PlayPuzzleTrack ();
 	}
 
 	string getTextInfo() {
