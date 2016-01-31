@@ -117,6 +117,10 @@ public class Map : MonoBehaviour {
 			setLevelEleven ();
 		} else if (level == 12) {
 			setLevelTwelve (); // 1-3
+		} else if (level == 13) {
+			setLevelThirteen (); // 2-2
+		} else if (level == 14) {
+			setLevelFourteen (); // 2-3
 		} else {
 			Debug.LogError ("Invalid Level!");
 		}
@@ -675,5 +679,147 @@ public class Map : MonoBehaviour {
 		GameManager.CameraPosition(new Vector3(73.32f, 83.0f, -80.0f),17);
 	}
 
+
+	/**
+	 * 
+	 *   
+	 * 
+	 * 
+	 *   _ _ _ _ 
+	 *  |_|_║_|_|
+	 *   _|_ _|_
+	 *  |_|_║_|_|
+	 * 
+	 * 
+	 */
+	void setLevelThirteen() {
+		// RED
+		verticalArray = new int[,] {
+			{ 1, 1, 2, 1, 1, 0, 0 }, 
+			{ 0, 1, 0, 1, 0, 0, 0 },
+			{ 1, 1, 2, 1, 1, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+
+		// BLUE
+		horizontalArray = new int[,] {
+			{ 1, 1, 1, 1, 0, 0, 0 }, 
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+		posArray = new int[,] {
+			{ 0, 1, 0, 0, 0, 0, 0 }, 
+			{ 0, 0, 0, 0, 0, 0, 1 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0,-1, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+		l = 6;
+
+		GameManager.CameraPosition(new Vector3(76.5f, 82.3f, -80.0f),17);
+	}
+
+
+
+
+
+	/**
+	 * 
+	 *   
+	 * 
+	 * 		 _
+	 *   _ _|_|_ 
+	 *  ║_|_|_|_|
+	 *  |_|_|_|_║
+	 *    |_|
+	 * 
+	 * 
+	 */
+	void setLevelFourteen() {
+		// RED
+		verticalArray = new int[,] {
+			{ 0, 0, 1, 1, 0, 0, 0 }, 
+			{ 2, 1, 1, 1, 1, 0, 0 },
+			{ 1, 1, 1, 1, 2, 0, 0 },
+			{ 0, 1, 1, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+
+		// BLUE
+		horizontalArray = new int[,] {
+			{ 0, 0, 1, 0, 0, 0, 0 }, 
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 0, 1, 0, 0, 0, 0, 0 }
+		};
+
+		posArray = new int[,] {
+			{ 0, 0, 0, 0, 0, 0, 0 }, 
+			{ 1, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0,-1, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+		l = 6;
+
+		GameManager.CameraPosition(new Vector3(76.8f, 80.0f, -80.0f),20);
+	}
+
+
+
+
+	/**
+	 * 
+	 *   
+	 * 
+	 * 		     _   _
+	 *       _  |_|_|_|
+	 *     _|_|   |_|_|
+	 *    |_|_|_  |_|   
+	 *    |_| |_|
+	 * 
+	 * 
+	 */
+	void setLevelFifteen() {
+		// RED
+		verticalArray = new int[,] {
+			{ 0, 0, 1, 1, 0, 0, 0 }, 
+			{ 2, 1, 1, 1, 1, 0, 0 },
+			{ 1, 1, 1, 1, 2, 0, 0 },
+			{ 0, 1, 1, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+
+		// BLUE
+		horizontalArray = new int[,] {
+			{ 0, 0, 1, 0, 0, 0, 0 }, 
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 1, 1, 1, 1, 0, 0, 0 },
+			{ 0, 1, 0, 0, 0, 0, 0 }
+		};
+
+		posArray = new int[,] {
+			{ 0, 0, 0, 0, 0, 0, 0 }, 
+			{ 1, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0,-1, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+		l = 6;
+
+		GameManager.CameraPosition(new Vector3(76.8f, 80.0f, -80.0f),20);
+	}
 
 }
