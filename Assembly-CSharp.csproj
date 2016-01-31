@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\BGImagesBehavior.cs" />
+     <Compile Include="Assets\End Screen\GetAttempts.cs" />
      <Compile Include="Assets\GameManager.cs" />
      <Compile Include="Assets\Grid.cs" />
      <Compile Include="Assets\GridMovable.cs" />

@@ -143,6 +143,12 @@ public class GameManager : MonoBehaviour {
 		Debug.LogError ("!!!!! LOST, CANT MOVE");
 	}
 
+	public void EndGame () {
+		numberAttempts++;
+		attemptTxt.text = "with <color=#00fff6>" + numberAttempts.ToString () + "</color> attempt(s)";
+		Debug.Log ("End Game");
+	}
+
 	public void TimesUp () {
 		timerRunning = false;
 		Debug.LogError ("!!!!! LOST TIMES UP");
