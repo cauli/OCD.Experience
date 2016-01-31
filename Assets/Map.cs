@@ -10,6 +10,11 @@ public class Map : MonoBehaviour {
 	public Transform line5;
 	public Transform line6;
 
+
+	public Transform lineCount;
+
+
+
 	public GameManager gameManager;
 
 	/*
@@ -41,12 +46,14 @@ public class Map : MonoBehaviour {
 													    { 0, 0, 0 },
 													    { 0, 0, 0 } };
 
-	public int l = 10;  // Stick length
+	public int l = 6;  // Stick length
 
 	public int level = 1;
 	public float playerScale = 2;
 
 	public float totalTime = 20.0f;
+
+	public Vector2 cameraOffset = new Vector2(10f, 10f);
 
 	GameObject[] lines;
 
@@ -109,7 +116,9 @@ public class Map : MonoBehaviour {
 		}else {
 			Debug.LogError ("Invalid Level!");
 		}
-			
+
+		drawLinesForPuzzle();
+
 		//gameManager.StartPuzzle(totalTime);
 	}
 
@@ -122,6 +131,12 @@ public class Map : MonoBehaviour {
 		foreach(GameObject obj in allLines) {
 			Destroy (obj);
 		}
+
+		GameObject[] allCount = GameObject.FindGameObjectsWithTag("LineCount");
+		foreach(GameObject obj in allCount) {
+			Destroy (obj);
+		}
+
 
 		for (int row = 0; row < verticalArray.GetLength (0); row++) {
 			for (int col = 0; col < verticalArray.GetLength (1); col++) {
@@ -148,6 +163,7 @@ public class Map : MonoBehaviour {
 						}
 					}
 
+
 					if (line != null) {
 						LineRenderer renderer = (LineRenderer)line.gameObject.GetComponent<LineRenderer> ();
 
@@ -155,6 +171,14 @@ public class Map : MonoBehaviour {
 
 						info.startVector3 = new Vector3 (row * l, col * l, 0);
 						info.endVector3 = new Vector3 (row*l+ (1*l), col*l,0);
+
+						//Quaternion a = Quaternion.Euler(270f, 0f, 0f) * Quaternion.Euler(0f, 0f, 0f);
+						Transform count = (Transform)Instantiate (lineCount, new Vector3 (row * l + (0.5f*l), col * l, 0.0f), Quaternion.identity);
+
+						count.GetComponent<TextMesh>().text = v.ToString();
+
+						count.transform.Rotate(new Vector3(0f, 270f, 90f));
+
 					}
 				}
 			}
@@ -194,6 +218,14 @@ public class Map : MonoBehaviour {
 
 						info.startVector3 = new Vector3 (row * l, col * l, 0);
 						info.endVector3 = new Vector3 (row*l, col*l + (1*l),0);
+
+
+						Transform count = (Transform)Instantiate (lineCount, new Vector3 (row * l , col * l + (0.5f*l), 0.0f), Quaternion.identity);
+
+						count.GetComponent<TextMesh>().text = v.ToString();
+
+						count.transform.Rotate(new Vector3(0f, 270f, 90f));
+
 					}
 				}
 			}
@@ -213,6 +245,13 @@ public class Map : MonoBehaviour {
 	 * 
 	 */
 
+	/**
+	*	  _
+	*   _║_|
+	*
+	*	Tutorial introdutório
+	*
+	*/
 	void setLevelZero() {
 		verticalArray  = new int[,]       
 		  { { 0, 2, 1 }, 
@@ -250,25 +289,35 @@ public class Map : MonoBehaviour {
 		
 	}
 
+	/**
+	 *        _
+	 * 		_|_|_
+	 *     |_| |_|
+	 * 		 
+	 * 
+	 * 
+	 */
 	void setLevelTwo() {
 		// RED
-		verticalArray  = new int[,]       { { 0, 1, 1, 0 }, 
-									     	{ 1, 1, 1, 1 },
-											{ 0, 1, 1, 0 },
+		verticalArray  = new int[,]       { { 0, 2, 2, 0 }, 
+									     	{ 2, 2, 2, 2 },
+											{ 0, 0, 0, 0 },
 											{ 0, 0, 0, 0 } };
 
 		// BLUE
-		horizontalArray  = new int[,]     { { 0, 1, 0, 0 }, 
-											{ 1, 1, 1, 0 },
-											{ 1, 1, 1, 0 },
-											{ 0, 1, 0, 0 } };
+		horizontalArray  = new int[,]     { { 0, 2, 0, 0 }, 
+											{ 2, 2, 2, 0 },
+											{ 2, 0, 2, 0 },
+											{ 0, 0, 0, 0 } };
 
 		posArray         = new int[,]    {  { 0, 0, 0, 0 }, 
 											{ 1, 0, 0, 0 },
 											{ 0, 0, 0, 0 },
 											{ 0, 0, 0, 0 } };
 
-		l = 10;
+		l = 6;
+
+		GameManager.CameraPositionOnly(new Vector3(80.4f, 79.9f, -84.9f));
 	}
 
 	// DRAGON
@@ -337,8 +386,8 @@ public class Map : MonoBehaviour {
 	void setLevelFive() {
 		// RED
 		verticalArray  = new int[,]    	  { { 1, 2, 1, 0, 0, 0 }, 
-											{ 0, 1, 1, 1, 0, 0 },
-											{ 0, 0, 1, 1, 1, 0 },
+											{ 0, 1, 3, 1, 0, 0 },
+											{ 0, 0, 1, 2, 1, 0 },
 											{ 0, 0, 0, 0, 0, 0 },
 											{ 0, 0, 0, 0, 0, 0 } };
 
@@ -354,6 +403,11 @@ public class Map : MonoBehaviour {
 											{ 0, 0, 0, 0, 0, 0 },
 											{ 0, 0, 0, 0, 0, 0 },
 											{ 0, 0, 0, 0, 0, 0 } };
+
+
+		GameManager.CameraPosition(new Vector3(80.4f, 83.1f, -84.2f), 18);
+
+
 
 	}
 
@@ -394,20 +448,23 @@ public class Map : MonoBehaviour {
 	void setLevelSeven() {
 		// RED
 		verticalArray  = new int[,]       { { 0, 2, 2, 0 }, 
-											{ 0, 1, 1, 0 },
+											{ 0, 3, 3, 0 },
 											{ 0, 2, 2, 0 },
 											{ 0, 0, 0, 0 } };
 
 		// BLUE
 		horizontalArray  = new int[,]     { { 0, 0, 0, 0 }, 
-											{ 2, 1, 2, 0 },
-											{ 2, 1, 2, 0 },
+											{ 2, 3, 2, 0 },
+											{ 2, 3, 2, 0 },
 											{ 0, 0, 0, 0 } };
 
 		posArray         = new int[,]    {  { 0, 0, 0, 0 }, 
 											{ 0, 0, 0, 0 },
 											{ 0, 1, 0, 0 },
 											{ 0, 0, 0, 0 } };
+
+		l = 6;
+		GameManager.CameraPosition(new Vector3(99.1f, 95.5f, -101.3f), 15);
 
 	}
 
@@ -449,6 +506,9 @@ public class Map : MonoBehaviour {
 			{ 0, 0, 0, 0, 0, 0 }
 		};
 
+
+		l = 3;
+
 	}
 
 	/**
@@ -488,7 +548,14 @@ public class Map : MonoBehaviour {
 		l = 10;
 	}
 
-
+	/**
+	 * 	 1	_
+	 *   |_|_|_
+	 *   |_|_|_|
+	 * 	   |_| |
+	 *         -1
+	 * 
+	 */
 	void setLevelTen() {
 		// RED
 		verticalArray  = new int[,]       

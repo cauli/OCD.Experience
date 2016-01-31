@@ -23,8 +23,13 @@ public class GridMovable : MonoBehaviour {
 	void Start () {
 
 		// Setando o length para o mesmo do Grid PAI
-		l = grid.l;
+		l = grid.map.l;
 
+		SetInitialPosition();
+	}
+
+	public void SetInitialPosition() {
+		l = grid.map.l;
 		gameObject.transform.position = GetStartPosition (grid);
 	}
 			
@@ -86,21 +91,21 @@ public class GridMovable : MonoBehaviour {
 		 * 
 		 * 
 		 */
-		if (direction == Direction.Up || direction == Direction.Left) {	
-			Debug.Log ("UP or LEFT!");	
+		if (direction == Direction.Up || direction == Direction.Left) {		
 			posX = destinyX;
 			posY = destinyY;
 		} else {
-			Debug.Log ("RIGHT or DOWN!");	
 			posX = cX;
 			posY = cY;
 		}
 
 		// To move
 		if (grid.isInsideBounds (destinyX, destinyY)) {	
-			Debug.Log ("But current sending  X: " + cX + " --- " + " Y: " + cY + "");	
+			/*
+			 Debug.Log ("But current sending  X: " + cX + " --- " + " Y: " + cY + "");	
 			Debug.Log ("Destiny Inside bounds X: " + destinyX + " --- " + " Y: " + destinyY + "");
 			Debug.Log ("But position sending  X: " + posX + " --- " + " Y: " + posY + "");
+			*/
 
 			if(grid.doMove(posX, posY, (way == Way.Vertical) )) {
 
@@ -111,7 +116,7 @@ public class GridMovable : MonoBehaviour {
 
 				Vector3 destinyVector3 = XYtoVector3 (destinyX, destinyY);
 
-				iTween.MoveTo(gameObject,iTween.Hash("x",destinyVector3.x,"y",destinyVector3.y,"time",0.5,"oncomplete","CompletedMove","looptype",iTween.LoopType.none));				
+				iTween.MoveTo(gameObject,iTween.Hash("x",destinyVector3.x,"y",destinyVector3.y,"z", -0.1f,"time",0.5,"oncomplete","CompletedMove","looptype",iTween.LoopType.none));				
 
 				grid.map.drawLinesForPuzzle ();
 
@@ -230,6 +235,8 @@ public class GridMovable : MonoBehaviour {
 
 
 	Vector3 XYtoVector3(int col, int row) {
+		l = grid.map.l;
+
 		return new Vector3 (row * l, col * l, 0);
 	}
 }
