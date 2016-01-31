@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour {
 	float totalCurrentTime = -1;
 	float startTotalTime = -1;
 
-	int[] puzzlesChallenge1 = new int[3] {2,5,7};
-
+	int[] puzzlesChallenge1 = new int[6] {2,6,11,5,8,7};
+	public Transform[] ballonsChallenge1;
 
 	int currentChallenge = 1;
 	private int currentPuzzleIndex = 0;
@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour {
 		timerRunning = true;
 		StartCoroutine(Timer());
 
+		// Coração batendo
 		System.Collections.Hashtable hash =
 			new System.Collections.Hashtable();
 		hash.Add("x", 0.81f);
@@ -123,6 +124,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void SetLevel(int level) {
+		
 		grid.map.setLevel(level);
 
 		GameObject[] allPlayer = GameObject.FindGameObjectsWithTag("Player");
@@ -130,6 +132,82 @@ public class GameManager : MonoBehaviour {
 			GridMovable gridMovable = player.GetComponent<GridMovable>();
 			gridMovable.SetInitialPosition();
 		}
+
+
+		ShowBalloon(currentPuzzleIndex);
+	}
+
+	int lastBalloonIndex = 0;
+
+	private void OnColorUpdated(Color color)
+	{
+		ballonsChallenge1[lastBalloonIndex].GetComponent<Image>().color = color;
+	}
+
+	private void OnColorUpdated2(Color color)
+	{
+		ballonsChallenge1[lastBalloonIndex].GetComponent<Image>().color = color;
+	}
+		
+	public void MoveGuiElement(Vector2 position){
+		ballonsChallenge1[lastBalloonIndex].GetComponent<RectTransform>().anchoredPosition = position;
+	}
+
+	private void ShowBalloon(int index) {
+
+		Debug.Log(ballonsChallenge1.Length + "!" + index);
+
+		// Setar color de todos baloes anteriores pra transparente pra garantir que nao vai dar overlap
+		for(int i=0; i<index; i++)
+		{
+			ballonsChallenge1[i].GetComponent<Image>().color = Color.clear;
+		}
+
+		if(ballonsChallenge1[index] != null) {
+			lastBalloonIndex = index;
+
+			Transform t = ballonsChallenge1[index];
+			GameObject g = t.gameObject;
+
+			Vector2 initialPos = ballonsChallenge1[lastBalloonIndex].GetComponent<RectTransform>().anchoredPosition;
+			Vector2 preInitialPos = initialPos - new Vector2(0f,20f);
+			t.transform.position = preInitialPos;
+
+			iTween.ValueTo(ballonsChallenge1[lastBalloonIndex].gameObject, iTween.Hash(
+				"from", preInitialPos,
+				"to", initialPos,
+				"time", 1.0f,
+				"delay", 0.5f,
+				"easeType", iTween.EaseType.easeInOutCubic,
+				"onupdatetarget", this.gameObject, 
+				"onupdate", "MoveGuiElement"));
+
+
+			Hashtable tweenParams = new Hashtable();
+			tweenParams.Add("from", ballonsChallenge1[lastBalloonIndex].GetComponent<Image>().color);
+			tweenParams.Add("to", Color.white);
+			tweenParams.Add("time", 1.0f);
+			tweenParams.Add("delay", 0.5f);
+			tweenParams.Add("onupdate", "OnColorUpdated");
+			tweenParams.Add("onupdatetarget", this.gameObject);
+
+			iTween.ValueTo(ballonsChallenge1[lastBalloonIndex].gameObject, tweenParams);
+
+			StartCoroutine(FadeOut(ballonsChallenge1[lastBalloonIndex].gameObject));
+		}
+	}
+
+	IEnumerator FadeOut(GameObject go) {
+		yield return new WaitForSeconds(4f);
+
+		Hashtable tweenParams2 = new Hashtable();
+		tweenParams2.Add("from", Color.white);
+		tweenParams2.Add("to", new Color(1,1,1,0));
+		tweenParams2.Add("time", 1.0f);
+		tweenParams2.Add("onupdate", "OnColorUpdated2");
+		tweenParams2.Add("onupdatetarget", this.gameObject);
+
+		iTween.ValueTo(go, tweenParams2);
 	}
 
 	IEnumerator Timer() {
@@ -166,6 +244,12 @@ public class GameManager : MonoBehaviour {
 
 	public void WonPuzzle () {
 
+		totalCurrentTime += 30;
+
+		if(totalCurrentTime > startTotalTime) {
+			totalCurrentTime = startTotalTime;
+		}
+
 		Debug.Log ("Won PUZZLE");
 
 		StopAllPlayers();
@@ -182,7 +266,12 @@ public class GameManager : MonoBehaviour {
 			else
 			{
 				SetLevel(puzzlesChallenge1[currentPuzzleIndex]);
-				bgBehavior.FadeInNextImage();
+
+				// TODO HACK Xunxo só pra mudar em telas impares
+				if(currentPuzzleIndex % 2 == 0)
+				{
+					bgBehavior.FadeInNextImage();
+				}
 			}
 		}
 		else
