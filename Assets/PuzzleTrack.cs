@@ -11,6 +11,9 @@ public class PuzzleTrack : MonoBehaviour {
 		DontDestroyOnLoad(puzzleObj);
 		DontDestroyOnLoad(puzzleIntro);
 		DontDestroyOnLoad(puzzleMain);
+
+		AudioSource main = puzzleMain.GetComponent<AudioSource> ();
+		main.PlayDelayed (27);
 	}
 
 	// Use this for initialization
@@ -19,8 +22,12 @@ public class PuzzleTrack : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Application.loadedLevelName != "Scene" || Application.loadedLevelName != "SecondStage") {
+		if (Application.loadedLevelName != "Scene" && Application.loadedLevelName != "SecondStage") {
+			puzzleIntro.SetActive (false);
 			puzzleMain.SetActive (false);
+		} else {
+			//puzzleIntro.SetActive (true);
+			puzzleMain.SetActive (true);
 		}
 	}
 }
