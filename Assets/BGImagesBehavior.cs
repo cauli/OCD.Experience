@@ -14,6 +14,22 @@ public class BGImagesBehavior : MonoBehaviour {
 	private int maxImageStates = 0;
 	int lastImageState = 0;
 
+	public void resetAllImages() {
+		currentImageState = 0;
+		maxImageStates = imageStates.Length;
+
+		for(var i=0; i<imageStates.Length; i++)
+		{
+			if(i == currentImageState)
+			{
+				imageStates[i].color = Color.white;
+			}
+			else {
+				imageStates[i].color = Color.clear;
+			}
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		maxImageStates = imageStates.Length;

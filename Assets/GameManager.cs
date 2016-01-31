@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour {
 	private int currentPuzzleIndex = 0;
 
 	//private int numberAttempts = 0;
-	private int numberAttempts = 0;
+	private static int numberAttempts = 0;
 	private bool timerRunning = true;
 
 	// Use this for initialization
@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 	
 	}
+
+
 
 	public void SetCurrentChallengeNumber(int challengeNumber) {
 		Debug.LogWarning("I am setting current challenge number to " + challengeNumber);
@@ -109,6 +111,7 @@ public class GameManager : MonoBehaviour {
 	public void StartPuzzle(float totalTime) {
 		StartCoroutine(FadeOut(canvasGroup));
 
+		bgBehavior.resetAllImages();
 		if ( retryObj.activeSelf ) {
 			StartCoroutine(FadeOut(retryScreen));
 		}		
@@ -193,7 +196,7 @@ public class GameManager : MonoBehaviour {
 		Debug.Log(balloons.Length + "!" + index);
 
 		// Setar color de todos baloes anteriores pra transparente pra garantir que nao vai dar overlap
-		for(int i=0; i<index; i++)
+		for(int i=0; i<balloons.Length; i++)
 		{
 			balloons[i].GetComponent<Image>().color = Color.clear;
 		}
@@ -308,7 +311,10 @@ public class GameManager : MonoBehaviour {
 				currentPuzzleIndex = 0;
 				currentChallenge = 2;
 
-
+				if(attemptTxt != null) {
+					attemptEndTxt.text = "it took you <color=00fff6>" + numberAttempts.ToString() + "</color> attempt(s)";
+				}
+					
 				StartCoroutine (FadeIn (endScreen));
 
 				Debug.Log("FINISHED FULL CHALLENGE 1");

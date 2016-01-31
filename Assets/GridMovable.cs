@@ -78,6 +78,14 @@ public class GridMovable : MonoBehaviour {
 
 	void CompletedMove () {
 		//grid.map.drawLinesForPuzzle ();
+		if (grid.CheckWon ()) {
+			manager.WonPuzzle ();
+		} else {
+			// Nessa posição nova, se o usuário não puder se mexer, perdeu o jogo.
+			if (!grid.canMove (currentX, currentY)) {
+				manager.LostPuzzle ();
+			}
+		}
 	}
 
 	bool MoveIfPossible(int destinyX,  int destinyY, int cX, int cY, Way way, Direction direction) {
@@ -124,7 +132,7 @@ public class GridMovable : MonoBehaviour {
 				currentY = destinyY;
 
 				if (grid.CheckWon ()) {
-					manager.WonPuzzle ();
+					//manager.WonPuzzle ();
 				} else {
 					// Nessa posição nova, se o usuário não puder se mexer, perdeu o jogo.
 					if (!grid.canMove (currentX, currentY)) {
