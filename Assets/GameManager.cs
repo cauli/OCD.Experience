@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour {
 	int[] puzzlesChallenge2 = new int[3] {8,9,10};
 	public Transform[] ballonsChallenge2;
 
-	public static int currentChallenge = 1;
+	public static int currentChallenge = 0;
 	private int currentPuzzleIndex = 0;
 
 	//private int numberAttempts = 0;
@@ -46,6 +46,23 @@ public class GameManager : MonoBehaviour {
 		{
 			info.text = getTextInfo();
 		}
+
+		if(currentChallenge == 0)
+		{
+			Debug.Log("Current challenge is zero");
+
+			GameObject[] allPlayer = GameObject.FindGameObjectsWithTag("Player");
+			foreach(GameObject player in allPlayer) {
+				Debug.Log("Found Player... will set initial position");
+
+				GridMovable gridMovable = player.GetComponent<GridMovable>();
+				gridMovable.SetInitialPosition();
+			}
+		}
+			
+
+
+
 	}
 
 	string getTextInfo() {
@@ -113,6 +130,7 @@ public class GameManager : MonoBehaviour {
 
 		
 	public void StartPuzzle(float totalTime) {
+		Debug.LogWarning("Starting puzzle");
 		StartCoroutine(FadeOut(canvasGroup));
 
 		bgBehavior.resetAllImages();
