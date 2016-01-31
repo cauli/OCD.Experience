@@ -14,7 +14,7 @@ public class SceneManager : MonoBehaviour {
 	}
 
 	public void Wiki () {
-		Application.OpenURL ("https://en.wikipedia.org/wiki/Obsessive%E2%80%93compulsive_disorder");
+		Application.OpenURL ("http://www.ocduk.org/ocd");
 	}
 
 }
